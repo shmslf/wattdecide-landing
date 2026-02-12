@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WattDecide – Decision-grade models for home tech investments</title>
+  <meta name="description" content="WattDecide is a framework package for evaluating EV, solar, heat pumps and tariffs – transparent assumptions, scenario packs, and sensitivity.">
+  <meta name="robots" content="index,follow" />
+  <style>
+    :root{
+      --bg:#0b0c10;
+      --card:#0f1117;
+      --text:#e8eaf0;
+      --muted:#a7adbd;
+      --line:rgba(255,255,255,.10);
+      --accent:#7aa2ff;
+      --accent2:#7dffcc;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --max: 980px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 15% -10%, rgba(122,162,255,.20), transparent 60%),
+                  radial-gradient(900px 500px at 95% 0%, rgba(125,255,204,.12), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height:1.45;
+    }
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:38px 18px 64px;}
+    header{display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:42px;}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:650; letter-spacing:.2px;}
+    .dot{
+      width:12px; height:12px; border-radius:50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 6px rgba(122,162,255,.10);
+    }
+    .pill{
+      border:1px solid var(--line);
+      padding:8px 12px;
+      border-radius:999px;
+      color:var(--muted);
+      font-size:13px;
+      background: rgba(255,255,255,.03);
+    }
+    .hero{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    @media (max-width: 860px){
+      .hero{grid-template-columns:1fr}
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:26px;
+      box-shadow: var(--shadow);
+    }
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4.0vw, 44px);
+      letter-spacing: -0.6px;
+      line-height:1.08;
+    }
+    .sub{
+      margin:0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 62ch;
+    }
+    .ctaRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:11px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      text-decoration:none;
+      font-weight:650;
+      font-size:14px;
+      background: rgba(255,255,255,.04);
+    }
+    .btn.primary{
+      border-color: rgba(122,162,255,.55);
+      background: linear-gradient(135deg, rgba(122,162,255,.24), rgba(125,255,204,.14));
+    }
+    .btn:hover{transform: translateY(-1px); transition:.15s}
+    ul{
+      margin: 14px 0 0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:10px;
+    }
+    li{
+      display:flex; gap:10px;
+      padding:10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.14);
+    }
+    .tick{
+      width:18px; height:18px; border-radius:6px;
+      background: rgba(125,255,204,.14);
+      border: 1px solid rgba(125,255,204,.32);
+      display:flex; align-items:center; justify-content:center;
+      flex: 0 0 auto;
+      margin-top:1px;
+    }
+    .tick svg{width:12px; height:12px; fill: var(--accent2)}
+    .kicker{font-size:12px; color:var(--muted); margin: 0 0 12px;}
+    .small{font-size:13px; color:var(--muted); margin:0}
+    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px;}
+    @media (max-width: 560px){ .grid2{grid-template-columns:1fr} }
+    .mini{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      padding:14px;
+      background: rgba(255,255,255,.02);
+    }
+    .mini h3{margin:0 0 6px; font-size:14px}
+    .mini p{margin:0; color:var(--muted); font-size:13px}
+    footer{margin-top:28px; color:var(--muted); font-size:12px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><span class="dot"></span> WattDecide</div>
+      <div class="pill">MVP sprint – early access</div>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <h1>Decision-grade models for home tech investments.</h1>
+        <p class="sub">
+          A curated <b>framework package</b> – not “yet another template”.
+          Transparent assumptions, scenario packs, and sensitivity to help you make confident calls on EVs, solar, heat pumps, tariffs, and batteries.
+        </p>
+
+        <div class="ctaRow">
+          <a class="btn primary" href="https://tally.so/r/REPLACE_ME" target="_blank" rel="noopener">Join the early access list</a>
+          <a class="btn" href="#scope">What it does / doesn’t</a>
+        </div>
+
+        <ul>
+          <li>
+            <span class="tick" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M9.0 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+            </span>
+            <div><b>Framework, not a calculator</b><br><span class="small">Versioned releases, clear scope, and documented methods.</span></div>
+          </li>
+          <li>
+            <span class="tick" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M9.0 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+            </span>
+            <div><b>Scenario packs</b><br><span class="small">Realistic cases + stress tests (“what must be true?” thresholds).</span></div>
+          </li>
+          <li>
+            <span class="tick" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M9.0 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+            </span>
+            <div><b>Decision outputs</b><br><span class="small">NPV, break-even, cost/km, and sensitivity you can defend.</span></div>
+          </li>
+        </ul>
+      </div>
+
+      <aside class="card" id="scope">
+        <p class="kicker">Scope contract (MVP)</p>
+
+        <div class="grid2">
+          <div class="mini">
+            <h3>Does</h3>
+            <p>Household-level cash flows, NPV, break-even, sensitivity, scenario library, and clear assumptions.</p>
+          </div>
+          <div class="mini">
+            <h3>Doesn’t (yet)</h3>
+            <p>Hourly dispatch optimisation, bespoke tax advice, automated vehicle database, or smart-meter TOU simulation.</p>
+          </div>
+        </div>
+
+        <div class="mini" style="margin-top:12px;">
+          <h3>First release focus</h3>
+          <p><b>EV vs ICE total cost</b> with charging mix + optional solar interaction. Then expand to heat pump + insulation ROI.</p>
+        </div>
+
+        <p class="small" style="margin-top:14px;">
+          Want something included? Tell me in the form – I’ll prioritise based on demand.
+        </p>
+      </aside>
+    </section>
+
+    <footer>
+      <div>© <span id="y"></span> WattDecide</div>
+      <div><span class="small">Built as a rapid MVP sprint – ship first, iterate fast.</span></div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
