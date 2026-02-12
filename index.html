@@ -52,7 +52,7 @@
       justify-content:space-between;
       align-items:center;
       gap:16px;
-      margin-bottom:58px;
+      margin-bottom:56px;
     }
     .brand{
       display:flex;
@@ -74,6 +74,7 @@
       color:var(--text);
       background: transparent;
       font-size:13px;
+      font-weight:650;
     }
 
     /* Hero */
@@ -85,18 +86,61 @@
       max-width: 22ch;
     }
     .lead{
-      margin:16px 0 18px;
+      margin:14px 0 16px;
       color:var(--muted);
       font-size:16px;
       line-height:1.7;
-      max-width: 80ch;
+      max-width: 82ch;
+    }
+
+    .callout{
+      margin-top:14px;
+      border:1px solid rgba(143,240,198,.22);
+      background: rgba(143,240,198,.06);
+      border-radius:16px;
+      padding:14px 14px 12px;
+      max-width: 86ch;
+    }
+    .calloutTitle{
+      margin:0 0 8px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.18px;
+      font-weight:800;
+      color: rgba(255,255,255,.84);
+    }
+    .qgrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:8px 14px;
+      margin:0;
+      padding:0;
+      list-style:none;
+      color: rgba(255,255,255,.82);
+      font-size:14px;
+      line-height:1.55;
+    }
+    .qgrid li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .qdot{
+      width:8px;height:8px;border-radius:999px;
+      background: rgba(143,240,198,.85);
+      box-shadow: 0 0 0 6px rgba(143,240,198,.05);
+      flex: 0 0 8px;
+      margin-top:7px;
+    }
+    @media (max-width: 900px){
+      .qgrid{grid-template-columns:1fr;}
     }
 
     .pills{
       display:flex;
       flex-wrap:wrap;
       gap:10px;
-      margin:14px 0 18px;
+      margin:16px 0 16px;
     }
     .pill{
       display:inline-flex;
@@ -121,7 +165,7 @@
       gap:12px;
       flex-wrap:wrap;
       align-items:center;
-      margin-top:10px;
+      margin-top:8px;
     }
     .btn{
       display:inline-flex;
@@ -149,15 +193,15 @@
     }
 
     .hr{
-      margin:40px 0 0;
+      margin:36px 0 0;
       border-top:1px solid rgba(255,255,255,.08);
     }
 
     /* Sections */
     .grid{
-      margin-top:38px;
+      margin-top:34px;
       display:grid;
-      grid-template-columns: 1.15fr .85fr;
+      grid-template-columns: 1fr 1fr;
       gap:34px;
       align-items:start;
     }
@@ -173,7 +217,7 @@
       letter-spacing:.22px;
       text-transform:uppercase;
       color:rgba(255,255,255,.78);
-      font-weight:700;
+      font-weight:800;
     }
     .copy{
       color:var(--muted);
@@ -211,7 +255,7 @@
       margin-top:2px;
     }
 
-    /* Cards (pricing) */
+    /* Pricing */
     .cards{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -232,7 +276,7 @@
       font-size:12px;
       text-transform:uppercase;
       letter-spacing:.18px;
-      font-weight:800;
+      font-weight:900;
       margin-bottom:8px;
     }
     .card .price{
@@ -259,7 +303,7 @@
     summary{
       cursor:pointer;
       list-style:none;
-      font-weight:700;
+      font-weight:750;
       color: rgba(255,255,255,.86);
     }
     summary::-webkit-details-marker{display:none}
@@ -298,22 +342,31 @@
     </header>
 
     <section aria-label="Hero">
-      <h1>Make the call with transparent numbers.</h1>
+      <h1>Know if the upgrade actually pays.</h1>
 
       <p class="lead">
-        Independent, spreadsheet-first investment models for EVs, solar, heat pumps, tariffs, and batteries –
-        explicit cashflows, editable assumptions, and sensitivity analysis to test “what must be true” in your context.
+        Independent, spreadsheet-first investment models for home energy tech –
+        built to test “what must be true” using explicit cashflows, editable assumptions, and sensitivity analysis.
       </p>
+
+      <div class="callout" aria-label="Decisions this helps with">
+        <p class="calloutTitle">Decisions we’re modelling first</p>
+        <ul class="qgrid">
+          <li><span class="qdot"></span>Buy an EV or keep the current car?</li>
+          <li><span class="qdot"></span>Home vs public charging – what mix breaks even?</li>
+          <li><span class="qdot"></span>Add solar (or skip) – what conditions matter?</li>
+          <li><span class="qdot"></span>Is a battery worth it – or mostly marketing?</li>
+        </ul>
+      </div>
 
       <div class="pills" aria-label="Trust signals">
         <span class="pill"><span class="miniDot"></span>Independent – no affiliate links, no installer leads</span>
         <span class="pill"><span class="miniDot"></span>Assumptions are visible and editable</span>
-        <span class="pill"><span class="miniDot"></span>Sensitivity shows what actually drives the result</span>
+        <span class="pill"><span class="miniDot"></span>Sensitivity shows what drives the result</span>
       </div>
 
       <div class="ctaRow">
         <a class="btn primary" href="https://tally.so/r/yP9RjX?source=landing-hero" target="_blank" rel="noopener">Join the list</a>
-        <a class="btn" href="#pricing">Pricing</a>
       </div>
 
       <div class="fineprint">
@@ -337,12 +390,6 @@
           <b>What this is not</b> – Not a live data service, not an hourly dispatch optimiser, not a tax/incentive engine,
           and not a guarantee of savings. It’s a structured framework to test “what must be true”.
         </p>
-        <div class="spacer"></div>
-        <p class="copy">
-          <b>Design philosophy</b> – Household decisions are dominated by a small number of uncertain drivers
-          (electricity price, fuel price, mileage, residual value). The model prioritises clarity and robustness under uncertainty –
-          not false precision through excessive complexity.
-        </p>
 
         <div class="spacer"></div>
         <p class="kicker" style="margin-top:20px;">What you get in v1</p>
@@ -355,15 +402,6 @@
       </div>
 
       <div>
-        <p class="kicker">For / not for (to save you time)</p>
-        <ul class="list">
-          <li><span class="tick">✓</span> For people who want to audit assumptions and compare scenarios.</li>
-          <li><span class="tick">✓</span> For decisions where being “roughly right” beats false precision.</li>
-          <li><span class="tick">✕</span> Not for one-click “tell me what to buy” recommendations.</li>
-          <li><span class="tick">✕</span> Not for live tariff scraping, incentives automation, or dashboards.</li>
-        </ul>
-
-        <div class="spacer"></div>
         <p class="kicker">Limitations (by design)</p>
 
         <details>
@@ -396,8 +434,8 @@
       </div>
     </section>
 
-    <section id="pricing" aria-label="Pricing" style="margin-top:42px;">
-      <p class="kicker">Pricing</p>
+    <section aria-label="Pricing" style="margin-top:42px;">
+      <p class="kicker">Pricing (planned)</p>
 
       <div class="cards">
         <div class="card">
@@ -425,36 +463,8 @@
       </div>
 
       <div class="ctaRow" style="margin-top:14px;">
-        <a class="btn primary" href="https://tally.so/r/yP9RjX?source=landing-pricing" target="_blank" rel="noopener">Join the list for launch access</a>
+        <a class="btn primary" href="https://tally.so/r/yP9RjX?source=landing-bottom" target="_blank" rel="noopener">Get notified at launch</a>
       </div>
-    </section>
-
-    <section aria-label="FAQ" style="margin-top:46px;">
-      <p class="kicker">FAQ</p>
-
-      <details>
-        <summary>Why isn’t this free? There are free spreadsheets online.</summary>
-        <div class="detailsBody">
-          Free tools exist. WattDecide is a documented, versioned framework with transparent assumptions,
-          sensitivity analysis, and maintained updates. You’re paying for reliability and defensible structure – not novelty.
-        </div>
-      </details>
-
-      <details>
-        <summary>Your assumptions are wrong for my country / situation.</summary>
-        <div class="detailsBody">
-          That may be true. The model is designed to be assumption-transparent and user-adjustable.
-          If a default range should change, submit an “assumption dispute” with a proposed range and rationale.
-        </div>
-      </details>
-
-      <details>
-        <summary>Does this guarantee an EV will be cheaper?</summary>
-        <div class="detailsBody">
-          No. It provides a structured way to test conditions and sensitivity. Outcomes depend on your inputs
-          and future prices, which are uncertain.
-        </div>
-      </details>
     </section>
 
     <footer class="foot" aria-label="Footer">
