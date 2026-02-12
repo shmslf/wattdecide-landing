@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WattDecide – Home tech investment models</title>
-  <meta name="description" content="Practical models for EVs, solar, heat pumps, tariffs and batteries. Launching soon." />
+  <title>WattDecide – Independent home energy investment models</title>
+  <meta name="description" content="Independent, spreadsheet-first investment models for EVs, solar, heat pumps, tariffs, and batteries – auditable cashflows, stress tests, and 'what must be true' thresholds." />
   <meta name="robots" content="index,follow" />
 
   <style>
@@ -16,6 +16,8 @@
       --hair:rgba(255,255,255,.10);
       --accent:#8ff0c6;
       --max: 1040px;
+      --card: rgba(255,255,255,.04);
+      --card2: rgba(255,255,255,.06);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -35,12 +37,12 @@
       opacity: .9;
     }
     a{color:inherit; text-decoration:none}
-    a:hover{opacity:.9}
+    a:hover{opacity:.92}
 
     .wrap{
       max-width:var(--max);
       margin:0 auto;
-      padding:42px 22px 48px;
+      padding:42px 22px 56px;
       position:relative;
     }
 
@@ -82,14 +84,39 @@
       font-size: clamp(44px, 6vw, 84px);
       line-height:1.02;
       letter-spacing:-.7px;
-      max-width: 18ch;
+      max-width: 22ch;
     }
     .lead{
-      margin:18px 0 22px;
+      margin:18px 0 18px;
       color:var(--muted);
       font-size:16px;
       line-height:1.7;
-      max-width: 74ch;
+      max-width: 80ch;
+    }
+
+    .trustRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin:10px 0 18px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: rgba(255,255,255,.78);
+      font-size:12px;
+      line-height:1;
+      white-space:nowrap;
+    }
+    .pill b{color:rgba(255,255,255,.90); font-weight:650}
+    .miniDot{
+      width:7px;height:7px;border-radius:999px;background:rgba(143,240,198,.85);
+      box-shadow: 0 0 0 5px rgba(143,240,198,.06);
     }
 
     .ctaRow{
@@ -115,24 +142,35 @@
       border-color: rgba(143,240,198,.35);
       background: rgba(143,240,198,.08);
     }
+    .btn.ghost{
+      border-color: rgba(255,255,255,.14);
+      background: rgba(255,255,255,.02);
+      color: rgba(255,255,255,.86);
+    }
 
     .fineprint{
       margin-top:10px;
       color:var(--muted2);
       font-size:12px;
       line-height:1.6;
+      max-width: 80ch;
+    }
+
+    .divider{
+      margin-top:42px;
+      border-top:1px solid rgba(255,255,255,.08);
     }
 
     .section{
-      margin-top:54px;
+      margin-top:46px;
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:34px;
     }
     @media (max-width: 900px){
       .topbar{margin-bottom:44px}
-      .section{grid-template-columns:1fr; gap:22px; margin-top:42px}
-      h1{max-width: 22ch}
+      .section{grid-template-columns:1fr; gap:22px; margin-top:36px}
+      h1{max-width: 26ch}
     }
 
     .h2{
@@ -170,6 +208,49 @@
       margin-top:2px;
     }
 
+    .cards{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    @media (max-width: 900px){
+      .cards{grid-template-columns:1fr; }
+    }
+    .card{
+      border:1px solid rgba(255,255,255,.10);
+      background: var(--card);
+      border-radius:16px;
+      padding:14px 14px 12px;
+    }
+    .card .kicker{
+      color: rgba(255,255,255,.72);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.18px;
+      font-weight:700;
+      margin-bottom:8px;
+    }
+    .card .price{
+      font-size:22px;
+      font-weight:750;
+      letter-spacing:-.3px;
+      margin:0 0 6px;
+    }
+    .card .desc{
+      margin:0;
+      color: var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+    .note{
+      margin-top:10px;
+      color: var(--muted2);
+      font-size:12px;
+      line-height:1.6;
+      max-width: 90ch;
+    }
+
     .foot{
       margin-top:68px;
       padding-top:18px;
@@ -197,48 +278,119 @@
     </header>
 
     <section aria-label="Hero">
-      <h1>Make the right call on home energy tech.</h1>
+      <h1>Independent decisions for home energy tech.</h1>
 
       <p class="lead">
-        Practical, spreadsheet-first models for EVs, solar, heat pumps, tariffs, and batteries –
-        focused on cashflows, assumptions, and sensitivity, so the decision is clear.
+        Spreadsheet-first investment models for EVs, solar, heat pumps, tariffs, and batteries –
+        built for auditability and trust: explicit cashflows, editable assumptions, and
+        “what must be true” thresholds instead of sales numbers.
       </p>
+
+      <div class="trustRow" aria-label="Trust signals">
+        <span class="pill"><span class="miniDot"></span><b>Independent</b> – no affiliate links, no installer leads</span>
+        <span class="pill"><span class="miniDot"></span><b>Auditable</b> – every output traces to inputs</span>
+        <span class="pill"><span class="miniDot"></span><b>Antifragile</b> – stress tests + break conditions</span>
+        <span class="pill"><span class="miniDot"></span><b>Shareable</b> – outputs with assumptions attached</span>
+      </div>
 
       <div class="ctaRow">
         <a class="btn primary" href="https://tally.so/r/yP9RjX?source=landing-hero" target="_blank" rel="noopener">Join the list</a>
+        <a class="btn ghost" href="#pricing">See pricing</a>
       </div>
 
       <div class="fineprint">
-        Launching soon. One email when v1 is ready. Unsubscribe any time.
+        Launching soon. One email when v1 is ready. Unsubscribe any time.<br />
+        <span style="color:rgba(255,255,255,.52)">WattDecide is for decision support and education – not financial advice.</span>
       </div>
     </section>
 
+    <div class="divider" aria-hidden="true"></div>
+
     <section class="section" id="details" aria-label="Details">
+      <div>
+        <p class="h2">Why this is different</p>
+        <ul class="list">
+          <li><span class="tick">✓</span> <b>Independent by default</b> – the model doesn’t “want” you to buy anything.</li>
+          <li><span class="tick">✓</span> <b>No hidden defaults</b> – assumptions are visible and editable (including the uncomfortable ones).</li>
+          <li><span class="tick">✓</span> <b>Anti-greenwashing</b> – results are conditional: “EV wins if…” / “solar wins if…”.</li>
+          <li><span class="tick">✓</span> <b>Audit trail</b> – every headline number can be traced back to a specific input.</li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="h2">Antifragile method</p>
+        <ul class="list">
+          <li><span class="tick">✓</span> Stress-case scenarios are first-class (not an afterthought).</li>
+          <li><span class="tick">✓</span> Sensitivity shows which 2–3 assumptions actually drive the result.</li>
+          <li><span class="tick">✓</span> “Break conditions” – what must change for the conclusion to flip.</li>
+          <li><span class="tick">✓</span> Versioned changes with short release notes (no silent tweaks).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-label="V1 content">
       <div>
         <p class="h2">In v1</p>
         <ul class="list">
           <li><span class="tick">✓</span> Total cost and cashflows with an explicit time horizon and inputs.</li>
           <li><span class="tick">✓</span> Break-even + NPV, plus “what would need to be true” sensitivity.</li>
-          <li><span class="tick">✓</span> A small set of realistic scenarios (baseline + stress case).</li>
+          <li><span class="tick">✓</span> Baseline + stress-case scenarios (kept small and realistic).</li>
           <li><span class="tick">✓</span> Output you can save/share with assumptions attached.</li>
         </ul>
+        <div class="note">
+          Scope is intentional: the goal is a decision you can trust, not a black-box optimiser.
+          Localisation (tariffs, incentives, taxes) can come later as optional packs if demand forces it.
+        </div>
       </div>
 
       <div>
-        <p class="h2">Method</p>
+        <p class="h2">What you get</p>
         <ul class="list">
-          <li><span class="tick">✓</span> Assumptions are visible and editable – no hidden defaults.</li>
-          <li><span class="tick">✓</span> Numbers trace back to inputs (so you can audit results).</li>
-          <li><span class="tick">✓</span> Changes are versioned with a short changelog.</li>
-          <li><span class="tick">✓</span> Email is used only for release updates.</li>
+          <li><span class="tick">✓</span> A clean inputs sheet (no hunting across tabs).</li>
+          <li><span class="tick">✓</span> Clear outputs: NPV, cost per km / per kWh, and break-even timing.</li>
+          <li><span class="tick">✓</span> A sensitivity view that answers: “what matters, what doesn’t, and why”.</li>
+          <li><span class="tick">✓</span> A short readme explaining interpretation and limitations.</li>
         </ul>
+      </div>
+    </section>
+
+    <section id="pricing" aria-label="Pricing">
+      <p class="h2" style="margin-top:52px;">Pricing</p>
+
+      <div class="cards" role="list">
+        <div class="card" role="listitem">
+          <div class="kicker">Waitlist</div>
+          <p class="price">$0</p>
+          <p class="desc">One email when v1 ships. No marketing drip. No spam.</p>
+        </div>
+
+        <div class="card" role="listitem">
+          <div class="kicker">Single model</div>
+          <p class="price">$29</p>
+          <p class="desc">One decision model (e.g., EV TCO). Downloadable, auditable, and versioned.</p>
+        </div>
+
+        <div class="card" role="listitem">
+          <div class="kicker">Bundle</div>
+          <p class="price">$79</p>
+          <p class="desc">Multiple models + updates. Best if you’re comparing several upgrades.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        Prices shown in USD. Taxes/VAT may apply depending on where you are.
+        Early pricing is designed to be accessible, and may increase as the library expands.
+      </div>
+
+      <div class="ctaRow" style="margin-top:14px;">
+        <a class="btn primary" href="https://tally.so/r/yP9RjX?source=landing-pricing" target="_blank" rel="noopener">Join the list for launch access</a>
       </div>
     </section>
 
     <footer class="foot" aria-label="Footer">
       <div>© <span id="y"></span> WattDecide</div>
       <div>
-        <a href="#" onclick="alert('Privacy: we only use your email to notify you when a new version is released. Unsubscribe any time.'); return false;">Privacy</a>
+        <a href="#" onclick="alert('Privacy: we only use your email to notify you about releases. No affiliate links, no lead selling. Unsubscribe any time.'); return false;">Privacy</a>
       </div>
     </footer>
   </main>
