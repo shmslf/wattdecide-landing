@@ -10,226 +10,249 @@
   <style>
     :root{
       --bg:#070a10;
-      --panel:rgba(255,255,255,.06);
-      --panel2:rgba(255,255,255,.04);
-      --line:rgba(255,255,255,.10);
       --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.66);
-      --shadow: 0 18px 50px rgba(0,0,0,.45);
-      --radius: 18px;
-      --max: 1000px;
+      --muted:rgba(255,255,255,.64);
+      --muted2:rgba(255,255,255,.48);
+      --hair:rgba(255,255,255,.12);
 
-      --accentA:#6ea8ff;
-      --accentB:#8ff0c6;
-      --accent: linear-gradient(135deg, rgba(110,168,255,.95), rgba(143,240,198,.88));
+      --accent:#8ff0c6;
+      --max: 1040px;
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
       color:var(--text);
-      background:
-        radial-gradient(900px 600px at 20% 15%, rgba(110,168,255,.16), transparent 60%),
-        radial-gradient(900px 600px at 85% 18%, rgba(143,240,198,.12), transparent 55%),
-        radial-gradient(1200px 900px at 50% 95%, rgba(110,168,255,.09), transparent 60%),
-        var(--bg);
-      letter-spacing: .1px;
+      background: var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      letter-spacing:.1px;
     }
 
-    a{color:inherit}
-    .wrap{max-width:var(--max); margin:0 auto; padding:42px 20px 56px}
+    /* very subtle "studio" glow (not a gradient panel) */
+    .bgglow{
+      position:fixed; inset:-20%;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 600px at 18% 12%, rgba(143,240,198,.08), transparent 65%),
+        radial-gradient(900px 600px at 82% 18%, rgba(110,168,255,.06), transparent 62%);
+      filter: blur(0px);
+      opacity: .9;
+    }
 
-    /* Top */
+    a{color:inherit; text-decoration:none}
+    a:hover{opacity:.9}
+
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:42px 22px 48px;
+      position:relative;
+    }
+
+    /* top */
     .topbar{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:14px; margin-bottom:18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      margin-bottom:64px;
     }
     .brand{
-      display:flex; align-items:center; gap:10px;
+      display:flex;
+      align-items:center;
+      gap:10px;
       font-weight:650;
       letter-spacing:.2px;
     }
     .dot{
-      width:10px; height:10px; border-radius:999px;
+      width:9px; height:9px; border-radius:999px;
       background: var(--accent);
-      box-shadow: 0 0 0 6px rgba(110,168,255,.10);
+      box-shadow: 0 0 0 6px rgba(143,240,198,.06);
     }
-    .pill{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:10px 14px; border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
+    .toplinks{
+      display:flex; align-items:center; gap:18px;
       color:var(--muted);
       font-size:13px;
-      text-decoration:none;
-      white-space:nowrap;
     }
-    .pill:hover{border-color: rgba(255,255,255,.16);}
+    .topcta{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      color:var(--text);
+      background: transparent;
+    }
 
-    /* Hero */
-    .hero{
-      padding:32px;
-      border-radius:var(--radius);
-      border:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      box-shadow: var(--shadow);
-    }
+    /* hero */
     h1{
-      margin:0 0 10px;
-      font-size: clamp(38px, 5vw, 60px);
-      line-height:1.04;
-      letter-spacing:-.6px;
+      margin:0;
+      font-size: clamp(44px, 6vw, 84px);
+      line-height:1.02;
+      letter-spacing:-.7px;
+      max-width: 16ch;
     }
     .lead{
-      margin:0 0 18px;
+      margin:18px 0 22px;
       color:var(--muted);
-      font-size: 16px;
-      line-height:1.65;
-      max-width: 70ch;
+      font-size:16px;
+      line-height:1.7;
+      max-width: 72ch;
     }
 
-    .ctaRow{display:flex; gap:12px; flex-wrap:wrap; margin:14px 0 0}
+    .ctaRow{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:10px;
+    }
     .btn{
-      display:inline-flex; align-items:center; justify-content:center;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       gap:10px;
-      padding:12px 16px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
+      padding:12px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: transparent;
       color:var(--text);
-      text-decoration:none;
       font-weight:650;
     }
     .btn.primary{
-      background: var(--accent);
-      color:#081018;
-      border:none;
-      box-shadow: 0 16px 40px rgba(110,168,255,.16);
+      border-color: rgba(143,240,198,.35);
+      background: rgba(143,240,198,.08);
     }
-    .btn:hover{border-color: rgba(255,255,255,.16);}
 
-    /* Content blocks */
-    .grid{
+    .fineprint{
+      margin-top:10px;
+      color:var(--muted2);
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    /* sections */
+    .section{
+      margin-top:54px;
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap:16px;
-      margin-top:16px;
+      gap:34px;
     }
     @media (max-width: 900px){
-      .grid{grid-template-columns:1fr}
+      .topbar{margin-bottom:44px}
+      .section{grid-template-columns:1fr; gap:22px; margin-top:42px}
+      h1{max-width: 20ch}
     }
 
-    .card{
-      padding:20px;
-      border-radius:var(--radius);
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-    }
-
-    .kicker{
-      margin:0 0 10px;
+    .h2{
+      margin:0 0 12px;
       font-size:13px;
+      letter-spacing:.22px;
+      text-transform:uppercase;
       color:rgba(255,255,255,.78);
-      font-weight:650;
-      letter-spacing:.2px;
+      font-weight:700;
     }
 
     .list{
       margin:0; padding:0; list-style:none;
-      display:grid; gap:10px;
+      display:grid;
+      gap:12px;
       color:var(--muted);
       font-size:14px;
-      line-height:1.55;
+      line-height:1.65;
     }
-    .list li{display:flex; gap:10px; align-items:flex-start}
-    .mark{
-      width:18px; height:18px; border-radius:999px;
-      display:inline-flex; align-items:center; justify-content:center;
-      background: rgba(143,240,198,.16);
-      border: 1px solid rgba(143,240,198,.32);
-      color: rgba(255,255,255,.9);
-      font-size: 12px;
+    .list li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .tick{
+      width:18px; height:18px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:12px;
+      color:rgba(255,255,255,.78);
       flex: 0 0 18px;
       margin-top:2px;
     }
 
-    /* Footer */
+    /* footer */
     .foot{
-      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
-      color:rgba(255,255,255,.45);
+      margin-top:68px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,255,255,.08);
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      color:var(--muted2);
       font-size:12px;
-      margin-top:18px;
-      padding-top:14px;
     }
-    .foot a{color:rgba(255,255,255,.55); text-decoration:none}
-    .foot a:hover{text-decoration:underline}
-
-    /* Tiny separators */
-    .subnote{
-      margin-top:10px;
-      color:rgba(255,255,255,.52);
-      font-size:12px;
-      line-height:1.5;
-    }
+    .foot a{color:rgba(255,255,255,.62)}
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand"><span class="dot"></span> WattDecide</div>
-      <a class="pill" href="https://tally.so/r/yP9RjX?source=landing" target="_blank" rel="noopener">Get notified</a>
-    </div>
+  <div class="bgglow" aria-hidden="true"></div>
 
-    <section class="hero" aria-label="WattDecide coming soon">
-      <h1>Decision-grade models<br/>for home tech investments.</h1>
+  <main class="wrap">
+    <header class="topbar">
+      <div class="brand"><span class="dot"></span> WattDecide</div>
+      <nav class="toplinks" aria-label="Primary">
+        <a class="topcta" href="https://tally.so/r/yP9RjX?source=landing-top" target="_blank" rel="noopener">Get notified</a>
+      </nav>
+    </header>
+
+    <section aria-label="Hero">
+      <h1>Decision-grade models for home tech investments.</h1>
 
       <p class="lead">
-        A small set of transparent, versioned models to help you make confident calls on EVs, solar, heat pumps, tariffs, and batteries.
-        Built like an analyst tool – clear assumptions, sensible scenarios, and outputs you can defend.
+        Transparent, versioned decision models for EVs, solar, heat pumps, tariffs, and batteries –
+        built like an analyst tool: clear assumptions, sensible scenarios, and outputs you can defend.
       </p>
 
       <div class="ctaRow">
-        <a class="btn primary" href="https://tally.so/r/yP9RjX?source=landing" target="_blank" rel="noopener">Join the list</a>
-        <a class="btn" href="#details">What it includes</a>
+        <a class="btn primary" href="https://tally.so/r/yP9RjX?source=landing-hero" target="_blank" rel="noopener">Join the list</a>
+        <a class="btn" href="#includes">What it includes</a>
       </div>
 
-      <div class="subnote">
-        Coming soon. Email only for updates. Unsubscribe any time.
+      <div class="fineprint">
+        Coming soon. Email only for release updates. Unsubscribe any time.
       </div>
     </section>
 
-    <div class="grid" id="details">
-      <section class="card" aria-label="What it includes">
-        <p class="kicker">What it includes</p>
+    <section class="section" id="includes" aria-label="Details">
+      <div>
+        <p class="h2">What it includes</p>
         <ul class="list">
-          <li><span class="mark">✓</span> Household cashflows, break-even, and NPV with a clearly defined time horizon.</li>
-          <li><span class="mark">✓</span> Sensitivity and “what must be true?” thresholds (price, usage, tariff spread, discount rate).</li>
-          <li><span class="mark">✓</span> Scenario packs (baseline + stress cases) that reflect real-world uncertainty.</li>
-          <li><span class="mark">✓</span> A clean output page you can save or share with assumptions attached.</li>
+          <li><span class="tick">✓</span> Household cashflows, break-even, and NPV with a clearly defined time horizon.</li>
+          <li><span class="tick">✓</span> Sensitivity and “what must be true?” thresholds (price, usage, tariff spread, discount rate).</li>
+          <li><span class="tick">✓</span> Scenario packs (baseline + stress cases) that reflect real-world uncertainty.</li>
+          <li><span class="tick">✓</span> A clean output page you can save or share with assumptions attached.</li>
         </ul>
-      </section>
+      </div>
 
-      <section class="card" aria-label="How it’s built">
-        <p class="kicker">How it’s built</p>
+      <div>
+        <p class="h2">How it’s built</p>
         <ul class="list">
-          <li><span class="mark">✓</span> Documented methods – every number is traceable to an assumption.</li>
-          <li><span class="mark">✓</span> Versioned releases – you can see what changed and why.</li>
-          <li><span class="mark">✓</span> Focus on decision quality – no vanity dashboards, no fluff.</li>
-          <li><span class="mark">✓</span> Privacy-first – email is only used to notify you about releases.</li>
+          <li><span class="tick">✓</span> Documented methods – every number is traceable to an assumption.</li>
+          <li><span class="tick">✓</span> Versioned releases – you can see what changed and why.</li>
+          <li><span class="tick">✓</span> Focus on decision quality – no vanity dashboards, no fluff.</li>
+          <li><span class="tick">✓</span> Privacy-first – email is used only to notify you about releases.</li>
         </ul>
-      </section>
-    </div>
+      </div>
+    </section>
 
-    <div class="foot">
+    <footer class="foot" aria-label="Footer">
       <div>© <span id="y"></span> WattDecide</div>
       <div>
         <a href="#" onclick="alert('Privacy: we only use your email to send WattDecide release updates. Unsubscribe anytime.'); return false;">Privacy</a>
       </div>
-    </div>
-  </div>
+    </footer>
+  </main>
 
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
