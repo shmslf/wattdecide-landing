@@ -6,19 +6,22 @@
   <title>WattDecide – Decision-grade models for home tech investments</title>
   <meta name="description" content="Decision-grade, transparent models for EVs, solar, heat pumps, tariffs and batteries. Coming soon." />
   <meta name="robots" content="index,follow" />
+
   <style>
     :root{
       --bg:#070a10;
-      --card:rgba(255,255,255,.06);
-      --card2:rgba(255,255,255,.04);
-      --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.68);
+      --panel:rgba(255,255,255,.06);
+      --panel2:rgba(255,255,255,.04);
       --line:rgba(255,255,255,.10);
-      --accent:#6ea8ff;
-      --accent2:#8ff0c6;
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
-      --radius: 20px;
-      --max: 1120px;
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.66);
+      --shadow: 0 18px 50px rgba(0,0,0,.45);
+      --radius: 18px;
+      --max: 1000px;
+
+      --accentA:#6ea8ff;
+      --accentB:#8ff0c6;
+      --accent: linear-gradient(135deg, rgba(110,168,255,.95), rgba(143,240,198,.88));
     }
 
     *{box-sizing:border-box}
@@ -28,18 +31,20 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
       color:var(--text);
       background:
-        radial-gradient(900px 600px at 25% 20%, rgba(110,168,255,.18), transparent 60%),
-        radial-gradient(900px 600px at 80% 20%, rgba(143,240,198,.14), transparent 55%),
-        radial-gradient(1100px 900px at 50% 90%, rgba(110,168,255,.10), transparent 60%),
+        radial-gradient(900px 600px at 20% 15%, rgba(110,168,255,.16), transparent 60%),
+        radial-gradient(900px 600px at 85% 18%, rgba(143,240,198,.12), transparent 55%),
+        radial-gradient(1200px 900px at 50% 95%, rgba(110,168,255,.09), transparent 60%),
         var(--bg);
       letter-spacing: .1px;
     }
 
     a{color:inherit}
-    .wrap{max-width:var(--max); margin:0 auto; padding:44px 20px 56px}
+    .wrap{max-width:var(--max); margin:0 auto; padding:42px 20px 56px}
+
+    /* Top */
     .topbar{
       display:flex; align-items:center; justify-content:space-between;
-      gap:14px; margin-bottom:26px;
+      gap:14px; margin-bottom:18px;
     }
     .brand{
       display:flex; align-items:center; gap:10px;
@@ -47,8 +52,8 @@
       letter-spacing:.2px;
     }
     .dot{
-      width:10px; height:10px; border-radius:99px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      width:10px; height:10px; border-radius:999px;
+      background: var(--accent);
       box-shadow: 0 0 0 6px rgba(110,168,255,.10);
     }
     .pill{
@@ -61,38 +66,31 @@
       text-decoration:none;
       white-space:nowrap;
     }
+    .pill:hover{border-color: rgba(255,255,255,.16);}
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1.3fr .9fr;
-      gap:20px;
-      align-items:start;
-    }
-    @media (max-width: 980px){
-      .grid{grid-template-columns:1fr}
-    }
-
+    /* Hero */
     .hero{
-      padding:34px;
+      padding:32px;
       border-radius:var(--radius);
       border:1px solid var(--line);
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       box-shadow: var(--shadow);
     }
     h1{
-      margin:0 0 12px;
-      font-size: clamp(38px, 5vw, 62px);
-      line-height:1.03;
+      margin:0 0 10px;
+      font-size: clamp(38px, 5vw, 60px);
+      line-height:1.04;
       letter-spacing:-.6px;
     }
     .lead{
       margin:0 0 18px;
       color:var(--muted);
       font-size: 16px;
-      line-height:1.6;
-      max-width: 66ch;
+      line-height:1.65;
+      max-width: 70ch;
     }
-    .ctaRow{display:flex; gap:12px; flex-wrap:wrap; margin:18px 0 8px}
+
+    .ctaRow{display:flex; gap:12px; flex-wrap:wrap; margin:14px 0 0}
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
       gap:10px;
@@ -102,94 +100,79 @@
       background: rgba(255,255,255,.05);
       color:var(--text);
       text-decoration:none;
-      font-weight:600;
+      font-weight:650;
     }
     .btn.primary{
-      background: linear-gradient(135deg, rgba(110,168,255,.95), rgba(143,240,198,.85));
+      background: var(--accent);
       color:#081018;
-      border: none;
-      box-shadow: 0 16px 40px rgba(110,168,255,.18);
+      border:none;
+      box-shadow: 0 16px 40px rgba(110,168,255,.16);
     }
-    .meta{
-      display:flex; gap:12px; flex-wrap:wrap;
-      color:var(--muted);
-      font-size:13px;
-      margin-top: 10px;
+    .btn:hover{border-color: rgba(255,255,255,.16);}
+
+    /* Content blocks */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+      margin-top:16px;
     }
-    .meta span{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:7px 10px;
-      border-radius:999px;
-      background: rgba(255,255,255,.035);
-      border:1px solid rgba(255,255,255,.07);
-    }
-    .check{
-      width:16px; height:16px; border-radius:99px;
-      background: rgba(143,240,198,.18);
-      border:1px solid rgba(143,240,198,.35);
-      display:inline-flex; align-items:center; justify-content:center;
-      font-size:12px; color:rgba(255,255,255,.9);
+    @media (max-width: 900px){
+      .grid{grid-template-columns:1fr}
     }
 
-    .side{
-      display:flex; flex-direction:column; gap:20px;
-    }
     .card{
-      padding:22px;
-      border-radius:var(--radius);
-      border:1px solid var(--line);
-      background: var(--card);
-      box-shadow: var(--shadow);
-    }
-    .card h3{
-      margin:0 0 10px; font-size:14px; color:rgba(255,255,255,.78);
-      font-weight:650;
-      letter-spacing:.2px;
-      text-transform:none;
-    }
-    .cols2{
-      display:grid; grid-template-columns:1fr 1fr; gap:12px;
-    }
-    @media (max-width: 480px){ .cols2{grid-template-columns:1fr} }
-
-    .mini{
-      padding:14px;
-      border-radius:16px;
-      background: var(--card2);
-      border:1px solid rgba(255,255,255,.08);
-    }
-    .mini strong{display:block; margin-bottom:6px}
-    .mini p{margin:0; color:var(--muted); font-size:13px; line-height:1.45}
-
-    .section{
-      margin-top:20px;
-      padding:22px;
+      padding:20px;
       border-radius:var(--radius);
       border:1px solid var(--line);
       background: rgba(255,255,255,.04);
     }
-    .section h2{
-      margin:0 0 8px;
-      font-size:16px;
+
+    .kicker{
+      margin:0 0 10px;
+      font-size:13px;
+      color:rgba(255,255,255,.78);
+      font-weight:650;
       letter-spacing:.2px;
     }
-    .bullets{
-      margin:10px 0 0; padding:0; list-style:none; display:grid; gap:10px;
-    }
-    .bullets li{
-      display:flex; gap:10px; align-items:flex-start;
+
+    .list{
+      margin:0; padding:0; list-style:none;
+      display:grid; gap:10px;
       color:var(--muted);
-      line-height:1.55;
       font-size:14px;
+      line-height:1.55;
     }
+    .list li{display:flex; gap:10px; align-items:flex-start}
+    .mark{
+      width:18px; height:18px; border-radius:999px;
+      display:inline-flex; align-items:center; justify-content:center;
+      background: rgba(143,240,198,.16);
+      border: 1px solid rgba(143,240,198,.32);
+      color: rgba(255,255,255,.9);
+      font-size: 12px;
+      flex: 0 0 18px;
+      margin-top:2px;
+    }
+
+    /* Footer */
     .foot{
       display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
       color:rgba(255,255,255,.45);
       font-size:12px;
-      margin-top:22px;
+      margin-top:18px;
+      padding-top:14px;
     }
     .foot a{color:rgba(255,255,255,.55); text-decoration:none}
     .foot a:hover{text-decoration:underline}
+
+    /* Tiny separators */
+    .subnote{
+      margin-top:10px;
+      color:rgba(255,255,255,.52);
+      font-size:12px;
+      line-height:1.5;
+    }
   </style>
 </head>
 
@@ -197,91 +180,53 @@
   <div class="wrap">
     <div class="topbar">
       <div class="brand"><span class="dot"></span> WattDecide</div>
-      <a class="pill" href="#early">Coming soon – join the list</a>
+      <a class="pill" href="https://tally.so/r/yP9RjX?source=landing" target="_blank" rel="noopener">Get notified</a>
     </div>
 
-    <div class="grid">
-      <div class="hero">
-        <h1>Decision-grade models<br/>for home tech investments.</h1>
-        <p class="lead">
-          Transparent, versioned decision models – not “yet another calculator”.
-          Clear assumptions, scenario packs, and sensitivity so you can make confident calls on EVs, solar, heat pumps, tariffs, and batteries.
-        </p>
+    <section class="hero" aria-label="WattDecide coming soon">
+      <h1>Decision-grade models<br/>for home tech investments.</h1>
 
-        <div class="ctaRow" id="early">
-          <a class="btn primary" href="https://tally.so/r/yP9RjX" target="_blank" rel="noopener">Join the early access list</a>
-          <a class="btn" href="#what">What you get</a>
-        </div>
+      <p class="lead">
+        A small set of transparent, versioned models to help you make confident calls on EVs, solar, heat pumps, tariffs, and batteries.
+        Built like an analyst tool – clear assumptions, sensible scenarios, and outputs you can defend.
+      </p>
 
-        <div class="meta" aria-label="trust signals">
-          <span><span class="check">✓</span> Transparent assumptions</span>
-          <span><span class="check">✓</span> Scenario packs + stress tests</span>
-          <span><span class="check">✓</span> Decision outputs you can defend</span>
-          <span><span class="check">✓</span> No spam – unsubscribe anytime</span>
-        </div>
-
-        <div class="section" id="what">
-          <h2>What you’ll actually get (v1)</h2>
-          <ul class="bullets">
-            <li><span class="check">✓</span> Household-level cashflows, break-even and NPV (clearly defined inputs and time horizon).</li>
-            <li><span class="check">✓</span> Sensitivity: “what must be true?” thresholds (price, usage, tariff spread, discount rate).</li>
-            <li><span class="check">✓</span> Scenario library: realistic baseline + stress cases (optimistic / conservative / worst-case).</li>
-            <li><span class="check">✓</span> A clean output page you can save/share with your assumptions and results.</li>
-          </ul>
-        </div>
+      <div class="ctaRow">
+        <a class="btn primary" href="https://tally.so/r/yP9RjX?source=landing" target="_blank" rel="noopener">Join the list</a>
+        <a class="btn" href="#details">What it includes</a>
       </div>
 
-      <div class="side">
-        <div class="card">
-          <h3>Method promises (credibility)</h3>
-          <div class="cols2">
-            <div class="mini">
-              <strong>Documented methods</strong>
-              <p>Every result is explainable. Assumptions are explicit, not hidden defaults.</p>
-            </div>
-            <div class="mini">
-              <strong>Versioned releases</strong>
-              <p>Model changes are tracked. You always know what changed and why.</p>
-            </div>
-            <div class="mini">
-              <strong>Decision outputs</strong>
-              <p>NPV, break-even, and “what must be true?” sensitivity – not vanity numbers.</p>
-            </div>
-            <div class="mini">
-              <strong>Privacy first</strong>
-              <p>Email only for updates. No resale. You control unsubscribe.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>Example output (illustrative)</h3>
-          <div class="mini">
-            <strong>EV vs ICE – total cost (10y)</strong>
-            <p>
-              – Headline: “EV wins if electricity ≤ X €/kWh or annual km ≥ Y”<br/>
-              – Sensitivity: tariff spread, charging mix, resale value<br/>
-              – Scenario pack: commuter, mixed, low-mileage
-            </p>
-          </div>
-          <div style="height:12px"></div>
-          <div class="mini">
-            <strong>Solar + battery – payback stress test</strong>
-            <p>
-              – Headline: “Payback depends on export rate + self-consumption”<br/>
-              – Sensitivity: degradation, inverter replacement, TOU shifts
-            </p>
-          </div>
-        </div>
+      <div class="subnote">
+        Coming soon. Email only for updates. Unsubscribe any time.
       </div>
+    </section>
+
+    <div class="grid" id="details">
+      <section class="card" aria-label="What it includes">
+        <p class="kicker">What it includes</p>
+        <ul class="list">
+          <li><span class="mark">✓</span> Household cashflows, break-even, and NPV with a clearly defined time horizon.</li>
+          <li><span class="mark">✓</span> Sensitivity and “what must be true?” thresholds (price, usage, tariff spread, discount rate).</li>
+          <li><span class="mark">✓</span> Scenario packs (baseline + stress cases) that reflect real-world uncertainty.</li>
+          <li><span class="mark">✓</span> A clean output page you can save or share with assumptions attached.</li>
+        </ul>
+      </section>
+
+      <section class="card" aria-label="How it’s built">
+        <p class="kicker">How it’s built</p>
+        <ul class="list">
+          <li><span class="mark">✓</span> Documented methods – every number is traceable to an assumption.</li>
+          <li><span class="mark">✓</span> Versioned releases – you can see what changed and why.</li>
+          <li><span class="mark">✓</span> Focus on decision quality – no vanity dashboards, no fluff.</li>
+          <li><span class="mark">✓</span> Privacy-first – email is only used to notify you about releases.</li>
+        </ul>
+      </section>
     </div>
 
     <div class="foot">
       <div>© <span id="y"></span> WattDecide</div>
       <div>
-        <a href="https://tally.so/r/yP9RjX" target="_blank" rel="noopener">Join early access</a>
-        &nbsp;–&nbsp;
-        <a href="#" onclick="alert('Privacy: email used only for WattDecide updates. Unsubscribe anytime.'); return false;">Privacy</a>
+        <a href="#" onclick="alert('Privacy: we only use your email to send WattDecide release updates. Unsubscribe anytime.'); return false;">Privacy</a>
       </div>
     </div>
   </div>
