@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WattDecide – Decision-grade models for home tech investments</title>
-  <meta name="description" content="Decision-grade, transparent models for EVs, solar, heat pumps, tariffs and batteries. Coming soon." />
+  <title>WattDecide – Home tech investment models</title>
+  <meta name="description" content="Practical models for EVs, solar, heat pumps, tariffs and batteries. Launching soon." />
   <meta name="robots" content="index,follow" />
 
   <style>
@@ -13,12 +13,10 @@
       --text:rgba(255,255,255,.92);
       --muted:rgba(255,255,255,.64);
       --muted2:rgba(255,255,255,.48);
-      --hair:rgba(255,255,255,.12);
-
+      --hair:rgba(255,255,255,.10);
       --accent:#8ff0c6;
       --max: 1040px;
     }
-
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -28,18 +26,14 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       letter-spacing:.1px;
     }
-
-    /* very subtle "studio" glow (not a gradient panel) */
     .bgglow{
       position:fixed; inset:-20%;
       pointer-events:none;
       background:
         radial-gradient(900px 600px at 18% 12%, rgba(143,240,198,.08), transparent 65%),
-        radial-gradient(900px 600px at 82% 18%, rgba(110,168,255,.06), transparent 62%);
-      filter: blur(0px);
+        radial-gradient(900px 600px at 82% 18%, rgba(110,168,255,.05), transparent 62%);
       opacity: .9;
     }
-
     a{color:inherit; text-decoration:none}
     a:hover{opacity:.9}
 
@@ -50,7 +44,6 @@
       position:relative;
     }
 
-    /* top */
     .topbar{
       display:flex;
       justify-content:space-between;
@@ -84,20 +77,19 @@
       background: transparent;
     }
 
-    /* hero */
     h1{
       margin:0;
       font-size: clamp(44px, 6vw, 84px);
       line-height:1.02;
       letter-spacing:-.7px;
-      max-width: 16ch;
+      max-width: 18ch;
     }
     .lead{
       margin:18px 0 22px;
       color:var(--muted);
       font-size:16px;
       line-height:1.7;
-      max-width: 72ch;
+      max-width: 74ch;
     }
 
     .ctaRow{
@@ -131,7 +123,6 @@
       line-height:1.6;
     }
 
-    /* sections */
     .section{
       margin-top:54px;
       display:grid;
@@ -141,7 +132,7 @@
     @media (max-width: 900px){
       .topbar{margin-bottom:44px}
       .section{grid-template-columns:1fr; gap:22px; margin-top:42px}
-      h1{max-width: 20ch}
+      h1{max-width: 22ch}
     }
 
     .h2{
@@ -179,7 +170,6 @@
       margin-top:2px;
     }
 
-    /* footer */
     .foot{
       margin-top:68px;
       padding-top:18px;
@@ -207,41 +197,40 @@
     </header>
 
     <section aria-label="Hero">
-      <h1>Decision-grade models for home tech investments.</h1>
+      <h1>Make the right call on home energy tech.</h1>
 
       <p class="lead">
-        Transparent, versioned decision models for EVs, solar, heat pumps, tariffs, and batteries –
-        built like an analyst tool: clear assumptions, sensible scenarios, and outputs you can defend.
+        Practical, spreadsheet-first models for EVs, solar, heat pumps, tariffs, and batteries –
+        focused on cashflows, assumptions, and sensitivity, so the decision is clear.
       </p>
 
       <div class="ctaRow">
         <a class="btn primary" href="https://tally.so/r/yP9RjX?source=landing-hero" target="_blank" rel="noopener">Join the list</a>
-        <a class="btn" href="#includes">What it includes</a>
       </div>
 
       <div class="fineprint">
-        Coming soon. Email only for release updates. Unsubscribe any time.
+        Launching soon. One email when v1 is ready. Unsubscribe any time.
       </div>
     </section>
 
-    <section class="section" id="includes" aria-label="Details">
+    <section class="section" id="details" aria-label="Details">
       <div>
-        <p class="h2">What it includes</p>
+        <p class="h2">In v1</p>
         <ul class="list">
-          <li><span class="tick">✓</span> Household cashflows, break-even, and NPV with a clearly defined time horizon.</li>
-          <li><span class="tick">✓</span> Sensitivity and “what must be true?” thresholds (price, usage, tariff spread, discount rate).</li>
-          <li><span class="tick">✓</span> Scenario packs (baseline + stress cases) that reflect real-world uncertainty.</li>
-          <li><span class="tick">✓</span> A clean output page you can save or share with assumptions attached.</li>
+          <li><span class="tick">✓</span> Total cost and cashflows with an explicit time horizon and inputs.</li>
+          <li><span class="tick">✓</span> Break-even + NPV, plus “what would need to be true” sensitivity.</li>
+          <li><span class="tick">✓</span> A small set of realistic scenarios (baseline + stress case).</li>
+          <li><span class="tick">✓</span> Output you can save/share with assumptions attached.</li>
         </ul>
       </div>
 
       <div>
-        <p class="h2">How it’s built</p>
+        <p class="h2">Method</p>
         <ul class="list">
-          <li><span class="tick">✓</span> Documented methods – every number is traceable to an assumption.</li>
-          <li><span class="tick">✓</span> Versioned releases – you can see what changed and why.</li>
-          <li><span class="tick">✓</span> Focus on decision quality – no vanity dashboards, no fluff.</li>
-          <li><span class="tick">✓</span> Privacy-first – email is used only to notify you about releases.</li>
+          <li><span class="tick">✓</span> Assumptions are visible and editable – no hidden defaults.</li>
+          <li><span class="tick">✓</span> Numbers trace back to inputs (so you can audit results).</li>
+          <li><span class="tick">✓</span> Changes are versioned with a short changelog.</li>
+          <li><span class="tick">✓</span> Email is used only for release updates.</li>
         </ul>
       </div>
     </section>
@@ -249,7 +238,7 @@
     <footer class="foot" aria-label="Footer">
       <div>© <span id="y"></span> WattDecide</div>
       <div>
-        <a href="#" onclick="alert('Privacy: we only use your email to send WattDecide release updates. Unsubscribe anytime.'); return false;">Privacy</a>
+        <a href="#" onclick="alert('Privacy: we only use your email to notify you when a new version is released. Unsubscribe any time.'); return false;">Privacy</a>
       </div>
     </footer>
   </main>
