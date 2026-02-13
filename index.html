@@ -83,12 +83,23 @@
       max-width: 22ch;
     }
     .lead{
-      margin:14px 0 16px;
+      margin:14px 0 10px;
       color:var(--muted);
       font-size:16px;
       line-height:1.7;
       max-width: 86ch;
     }
+
+    /* New: identity / ego hook (short, scannable) */
+    .ego{
+      margin:0 0 14px;
+      color:rgba(255,255,255,.82);
+      font-size:14px;
+      line-height:1.55;
+      max-width: 86ch;
+    }
+    .ego b{color:rgba(255,255,255,.92); font-weight:800}
+    .ego .accent{color: rgba(143,240,198,.88); font-weight:800}
 
     .callout{
       margin-top:14px;
@@ -251,12 +262,17 @@
       margin-top:2px;
     }
 
+    /* Pricing: now two-up on desktop */
     .cards{
       display:grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
       gap:14px;
       margin-top:14px;
     }
+    @media (max-width: 900px){
+      .cards{grid-template-columns:1fr;}
+    }
+
     .card{
       border:1px solid rgba(255,255,255,.10);
       background: var(--card);
@@ -312,8 +328,13 @@
       <h1>Know if it pays before you buy.</h1>
 
       <p class="lead">
-        Decision-grade spreadsheet models for home energy upgrades –
-        comparing cashflows over time and showing which assumptions actually drive the outcome.
+        Decision-grade spreadsheet models for home energy upgrades – comparing cashflows over time
+        and showing which assumptions actually drive the outcome.
+      </p>
+
+      <p class="ego">
+        Built for <span class="accent">analytical homeowners</span> – the kind of people who want the <b>assumptions</b>,
+        not the pitch.
       </p>
 
       <div class="callout" aria-label="Decisions we model first">
@@ -353,8 +374,8 @@
         </p>
         <div class="spacer"></div>
         <p class="copy">
-          <b>How it’s built</b> – Explicit cashflows over time, a small scenario set, and “what must be true” sensitivity so you can see
-          where the decision is robust and where it’s fragile.
+          <b>How it’s built</b> – Explicit cashflows over time, a small scenario set, and “what must be true” sensitivity
+          so you can see which conditions keep the decision rational.
         </p>
       </div>
 
@@ -382,10 +403,11 @@
         </div>
 
         <div class="card">
-          <div class="title">Support add-on (limited)</div>
+          <div class="title">Support add-on</div>
           <p class="price">€149</p>
           <p class="desc">
             One structured support interaction (email ticket or 20-minute review) for onboarding or a sense-check.
+            Limited availability.
           </p>
         </div>
       </div>
