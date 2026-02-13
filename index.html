@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WattDecide – Independent home energy investment models</title>
+  <title>WattDecide – Decision-grade home energy investment models</title>
   <meta name="description" content="Independent, spreadsheet-first investment models for EVs, solar, heat pumps, tariffs, and batteries – transparent assumptions, cashflows, and sensitivity analysis." />
   <meta name="robots" content="index,follow" />
 
@@ -35,7 +35,6 @@
         radial-gradient(900px 600px at 82% 18%, rgba(110,168,255,.05), transparent 62%);
       opacity: .9;
     }
-
     a{color:inherit; text-decoration:none}
     a:hover{opacity:.92}
 
@@ -46,7 +45,6 @@
       position:relative;
     }
 
-    /* Top */
     .topbar{
       display:flex;
       justify-content:space-between;
@@ -77,7 +75,6 @@
       font-weight:650;
     }
 
-    /* Hero */
     h1{
       margin:0;
       font-size: clamp(44px, 6vw, 78px);
@@ -90,7 +87,7 @@
       color:var(--muted);
       font-size:16px;
       line-height:1.7;
-      max-width: 82ch;
+      max-width: 86ch;
     }
 
     .callout{
@@ -99,14 +96,14 @@
       background: rgba(143,240,198,.06);
       border-radius:16px;
       padding:14px 14px 12px;
-      max-width: 86ch;
+      max-width: 92ch;
     }
     .calloutTitle{
       margin:0 0 8px;
       font-size:12px;
       text-transform:uppercase;
       letter-spacing:.18px;
-      font-weight:800;
+      font-weight:900;
       color: rgba(255,255,255,.84);
     }
     .qgrid{
@@ -134,13 +131,15 @@
     }
     @media (max-width: 900px){
       .qgrid{grid-template-columns:1fr;}
+      h1{max-width: 26ch}
+      .topbar{margin-bottom:44px}
     }
 
     .pills{
       display:flex;
       flex-wrap:wrap;
       gap:10px;
-      margin:16px 0 16px;
+      margin:16px 0 14px;
     }
     .pill{
       display:inline-flex;
@@ -177,7 +176,7 @@
       border:1px solid rgba(255,255,255,.14);
       background: transparent;
       color:var(--text);
-      font-weight:650;
+      font-weight:750;
     }
     .btn.primary{
       border-color: rgba(143,240,198,.35);
@@ -189,7 +188,7 @@
       color:var(--muted2);
       font-size:12px;
       line-height:1.6;
-      max-width: 90ch;
+      max-width: 96ch;
     }
 
     .hr{
@@ -197,18 +196,15 @@
       border-top:1px solid rgba(255,255,255,.08);
     }
 
-    /* Sections */
     .grid{
       margin-top:34px;
       display:grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.1fr .9fr;
       gap:34px;
       align-items:start;
     }
     @media (max-width: 900px){
-      .topbar{margin-bottom:44px}
       .grid{grid-template-columns:1fr; gap:22px}
-      h1{max-width: 26ch}
     }
 
     .kicker{
@@ -217,14 +213,14 @@
       letter-spacing:.22px;
       text-transform:uppercase;
       color:rgba(255,255,255,.78);
-      font-weight:800;
+      font-weight:900;
     }
     .copy{
       color:var(--muted);
       font-size:14px;
       line-height:1.75;
       margin:0;
-      max-width: 85ch;
+      max-width: 90ch;
     }
     .copy b{color:rgba(255,255,255,.88)}
     .spacer{height:14px}
@@ -255,15 +251,11 @@
       margin-top:2px;
     }
 
-    /* Pricing */
     .cards{
       display:grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap:14px;
       margin-top:14px;
-    }
-    @media (max-width: 900px){
-      .cards{grid-template-columns:1fr;}
     }
     .card{
       border:1px solid rgba(255,255,255,.10);
@@ -281,7 +273,7 @@
     }
     .card .price{
       font-size:22px;
-      font-weight:760;
+      font-weight:800;
       letter-spacing:-.3px;
       margin:0 0 6px;
     }
@@ -292,31 +284,6 @@
       line-height:1.6;
     }
 
-    /* Collapsible */
-    details{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      border-radius:14px;
-      padding:12px 12px;
-    }
-    details + details{margin-top:10px}
-    summary{
-      cursor:pointer;
-      list-style:none;
-      font-weight:750;
-      color: rgba(255,255,255,.86);
-    }
-    summary::-webkit-details-marker{display:none}
-    .detailsBody{
-      margin-top:10px;
-      color: var(--muted);
-      font-size:13px;
-      line-height:1.7;
-    }
-    .detailsBody ul{margin:8px 0 0; padding-left:18px}
-    .detailsBody li{margin:6px 0}
-
-    /* Footer */
     .foot{
       margin-top:64px;
       padding-top:18px;
@@ -342,20 +309,20 @@
     </header>
 
     <section aria-label="Hero">
-      <h1>Know if the upgrade actually pays.</h1>
+      <h1>Know if it pays before you buy.</h1>
 
       <p class="lead">
-        Independent, spreadsheet-first investment models for home energy tech –
-        built to test “what must be true” using explicit cashflows, editable assumptions, and sensitivity analysis.
+        Decision-grade spreadsheet models for home energy upgrades –
+        comparing cashflows over time and showing which assumptions actually drive the outcome.
       </p>
 
-      <div class="callout" aria-label="Decisions this helps with">
+      <div class="callout" aria-label="Decisions we model first">
         <p class="calloutTitle">Decisions we’re modelling first</p>
         <ul class="qgrid">
-          <li><span class="qdot"></span>Buy an EV or keep the current car?</li>
-          <li><span class="qdot"></span>Home vs public charging – what mix breaks even?</li>
-          <li><span class="qdot"></span>Add solar (or skip) – what conditions matter?</li>
-          <li><span class="qdot"></span>Is a battery worth it – or mostly marketing?</li>
+          <li><span class="qdot"></span>EV vs ICE – total cost over 5–10 years</li>
+          <li><span class="qdot"></span>Home vs public charging – what mix breaks even</li>
+          <li><span class="qdot"></span>Solar impact – how much it changes EV economics</li>
+          <li><span class="qdot"></span>Battery value – when it’s worth it (and when it isn’t)</li>
         </ul>
       </div>
 
@@ -377,73 +344,40 @@
 
     <div class="hr" aria-hidden="true"></div>
 
-    <section class="grid" aria-label="Core">
+    <section class="grid" aria-label="Details">
       <div>
         <p class="kicker">Scope & philosophy</p>
         <p class="copy">
-          <b>What this is</b> – A decision-grade capital allocation model for evaluating EV vs ICE ownership cost,
-          charging strategy, and basic solar interaction over a 5–10 year horizon. Built for analytical homeowners
-          who prefer transparent assumptions and sensitivity over black-box answers.
+          <b>What this is</b> – A capital allocation model for EV vs ICE decisions with charging strategy and basic solar interaction,
+          built for people who prefer transparent assumptions and sensitivity over black-box answers.
         </p>
         <div class="spacer"></div>
         <p class="copy">
-          <b>What this is not</b> – Not a live data service, not an hourly dispatch optimiser, not a tax/incentive engine,
-          and not a guarantee of savings. It’s a structured framework to test “what must be true”.
+          <b>How it’s built</b> – Explicit cashflows over time, a small scenario set, and “what must be true” sensitivity so you can see
+          where the decision is robust and where it’s fragile.
         </p>
-
-        <div class="spacer"></div>
-        <p class="kicker" style="margin-top:20px;">What you get in v1</p>
-        <ul class="list">
-          <li><span class="tick">✓</span> Cashflow-based TCO (explicit horizon, inputs, and assumptions).</li>
-          <li><span class="tick">✓</span> Break-even + NPV, plus “what would need to be true” sensitivity.</li>
-          <li><span class="tick">✓</span> A small scenario set (baseline + stress case) to avoid overfitting.</li>
-          <li><span class="tick">✓</span> Shareable outputs with assumptions attached + short documentation.</li>
-        </ul>
       </div>
 
       <div>
-        <p class="kicker">Limitations (by design)</p>
-
-        <details>
-          <summary>Known limitations in v1</summary>
-          <div class="detailsBody">
-            <ul>
-              <li>Solar interaction is simplified (annual energy basis), not hourly dispatch.</li>
-              <li>Time-of-use tariffs use user-defined effective rates, not half-hourly modelling.</li>
-              <li>Public charging is represented via % mix and unit prices, not session simulation.</li>
-              <li>Residual value uses user assumptions (with sensitivity), not a live depreciation database.</li>
-              <li>Taxes, incentives, grants, and country regulations are not automated.</li>
-            </ul>
-          </div>
-        </details>
-
-        <details>
-          <summary>Will not include (by design)</summary>
-          <div class="detailsBody">
-            <ul>
-              <li>Vehicle databases for every model/trim.</li>
-              <li>Real-time price scraping, APIs, or “live” dashboards.</li>
-              <li>Forecasting claims presented as certainty.</li>
-              <li>Marketing claims of guaranteed savings.</li>
-            </ul>
-            <div style="margin-top:10px;color:rgba(255,255,255,.52);font-size:12px;line-height:1.6;">
-              Reason: these features add maintenance overhead and false precision without materially improving decision robustness for most households.
-            </div>
-          </div>
-        </details>
+        <p class="kicker">What you get in v1</p>
+        <ul class="list">
+          <li><span class="tick">✓</span> Excel model + Google Sheets version</li>
+          <li><span class="tick">✓</span> Clean inputs, cashflows, break-even and NPV outputs</li>
+          <li><span class="tick">✓</span> Sensitivity view that surfaces the 2–3 drivers that matter</li>
+          <li><span class="tick">✓</span> Methodology + assumptions documentation</li>
+        </ul>
       </div>
     </section>
 
     <section aria-label="Pricing" style="margin-top:42px;">
-      <p class="kicker">Pricing (planned)</p>
+      <p class="kicker">Pricing</p>
 
       <div class="cards">
         <div class="card">
           <div class="title">Standard</div>
           <p class="price">€69</p>
           <p class="desc">
-            Excel model + Google Sheets version, methodology + assumptions documentation,
-            and all v1.x updates included.
+            Excel model + Google Sheets version, methodology + assumptions documentation.
           </p>
         </div>
 
@@ -451,19 +385,18 @@
           <div class="title">Support add-on (limited)</div>
           <p class="price">€149</p>
           <p class="desc">
-            One structured support interaction (email ticket or 20-minute review) –
-            intended for faster onboarding or a sense-check.
+            One structured support interaction (email ticket or 20-minute review) for onboarding or a sense-check.
           </p>
         </div>
+      </div>
+
+      <div class="ctaRow" style="margin-top:14px;">
+        <a class="btn primary" href="https://tally.so/r/yP9RjX?source=landing-bottom" target="_blank" rel="noopener">Get notified at launch</a>
       </div>
 
       <div class="fineprint" style="margin-top:10px;">
         Refunds: if the tool isn’t a fit, email within 7 days of purchase and include your reason.
         Refunds are offered at our discretion to prevent abuse of digital downloads.
-      </div>
-
-      <div class="ctaRow" style="margin-top:14px;">
-        <a class="btn primary" href="https://tally.so/r/yP9RjX?source=landing-bottom" target="_blank" rel="noopener">Get notified at launch</a>
       </div>
     </section>
 
