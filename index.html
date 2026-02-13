@@ -3,435 +3,1007 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WattDecide – Decision-grade home energy investment models</title>
-  <meta name="description" content="Independent, spreadsheet-first investment models for EVs, solar, heat pumps, tariffs, and batteries – transparent assumptions, cashflows, and sensitivity analysis." />
+  <title>WattDecide — Decision-grade home energy investment models</title>
+  <meta name="description" content="Independent spreadsheet models for EV, solar, battery and heat pump decisions — transparent assumptions, real cashflows, and sensitivity analysis that shows what actually drives the outcome." />
   <meta name="robots" content="index,follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Mono:wght@300;400;500&family=Epilogue:wght@400;450;500;600&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --bg:#070a10;
-      --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.66);
-      --muted2:rgba(255,255,255,.50);
-      --hair:rgba(255,255,255,.10);
-      --accent:#8ff0c6;
-      --max: 1040px;
-      --card: rgba(255,255,255,.04);
+    :root {
+      --bg:      #060e09;
+      --bg2:     #0a1610;
+      --surface: rgba(255,255,255,.035);
+      --border:  rgba(255,255,255,.08);
+      --border2: rgba(255,255,255,.13);
+      --text:    #eef2ed;
+      --muted:   rgba(238,242,237,.58);
+      --muted2:  rgba(238,242,237,.38);
+      --accent:  #52d98a;
+      --accent2: rgba(82,217,138,.12);
+      --accent3: rgba(82,217,138,.06);
+      --amber:   #e8b84b;
+      --max:     1020px;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      color:var(--text);
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
       background: var(--bg);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      letter-spacing:.1px;
-    }
-    .bgglow{
-      position:fixed; inset:-20%;
-      pointer-events:none;
-      background:
-        radial-gradient(900px 600px at 18% 12%, rgba(143,240,198,.08), transparent 65%),
-        radial-gradient(900px 600px at 82% 18%, rgba(110,168,255,.05), transparent 62%);
-      opacity: .9;
-    }
-    a{color:inherit; text-decoration:none}
-    a:hover{opacity:.92}
-
-    .wrap{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:40px 22px 60px;
-      position:relative;
+      color: var(--text);
+      font-family: 'Epilogue', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      margin-bottom:56px;
+    /* ─── BACKGROUND ─────────────────────────────────────── */
+    .bg-canvas {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
     }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight:650;
-      letter-spacing:.2px;
+    .bg-canvas::before {
+      content: '';
+      position: absolute;
+      width: 900px; height: 700px;
+      top: -200px; right: -150px;
+      background: radial-gradient(ellipse, rgba(82,217,138,.07) 0%, transparent 65%);
+      animation: orb1 18s ease-in-out infinite alternate;
     }
-    .dot{
-      width:9px; height:9px; border-radius:999px;
+    .bg-canvas::after {
+      content: '';
+      position: absolute;
+      width: 700px; height: 600px;
+      bottom: 10%; left: -100px;
+      background: radial-gradient(ellipse, rgba(82,217,138,.04) 0%, transparent 65%);
+      animation: orb2 22s ease-in-out infinite alternate;
+    }
+    @keyframes orb1 { from { transform: translate(0,0) scale(1); } to { transform: translate(-60px, 80px) scale(1.1); } }
+    @keyframes orb2 { from { transform: translate(0,0); } to { transform: translate(80px, -60px); } }
+
+    /* Grid texture */
+    .bg-grid {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(82,217,138,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(82,217,138,.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 100%);
+    }
+
+    /* ─── LAYOUT ─────────────────────────────────────────── */
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── FADE IN ANIMATION ──────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp .7s cubic-bezier(.22,.68,0,1.1) forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .d1 { animation-delay: .1s; }
+    .d2 { animation-delay: .22s; }
+    .d3 { animation-delay: .34s; }
+    .d4 { animation-delay: .46s; }
+    .d5 { animation-delay: .58s; }
+    .d6 { animation-delay: .70s; }
+
+    /* ─── TOPBAR ─────────────────────────────────────────── */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 0 0;
+      margin-bottom: 72px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      color: var(--text);
+    }
+    .brand-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 0 6px rgba(143,240,198,.06);
+      box-shadow: 0 0 12px rgba(82,217,138,.5);
+      animation: pulse 2.5s ease-in-out infinite;
     }
-    .topcta{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      color:var(--text);
-      background: transparent;
-      font-size:13px;
-      font-weight:650;
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 8px rgba(82,217,138,.4); }
+      50% { box-shadow: 0 0 20px rgba(82,217,138,.7); }
     }
-
-    h1{
-      margin:0;
-      font-size: clamp(44px, 6vw, 78px);
-      line-height:1.03;
-      letter-spacing:-.7px;
-      max-width: 22ch;
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: .01em;
+      transition: border-color .2s, background .2s;
     }
-    .lead{
-      margin:14px 0 10px;
-      color:var(--muted);
-      font-size:16px;
-      line-height:1.7;
-      max-width: 86ch;
+    .nav-cta:hover {
+      border-color: rgba(82,217,138,.4);
+      background: var(--accent3);
     }
 
-    /* New: identity / ego hook (short, scannable) */
-    .ego{
-      margin:0 0 14px;
-      color:rgba(255,255,255,.82);
-      font-size:14px;
-      line-height:1.55;
-      max-width: 86ch;
-    }
-    .ego b{color:rgba(255,255,255,.92); font-weight:800}
-    .ego .accent{color: rgba(143,240,198,.88); font-weight:800}
+    /* ─── HERO ───────────────────────────────────────────── */
+    .hero { padding-bottom: 80px; }
 
-    .callout{
-      margin-top:14px;
-      border:1px solid rgba(143,240,198,.22);
-      background: rgba(143,240,198,.06);
-      border-radius:16px;
-      padding:14px 14px 12px;
-      max-width: 92ch;
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 26px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
     }
-    .calloutTitle{
-      margin:0 0 8px;
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.18px;
-      font-weight:900;
-      color: rgba(255,255,255,.84);
-    }
-    .qgrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:8px 14px;
-      margin:0;
-      padding:0;
-      list-style:none;
-      color: rgba(255,255,255,.82);
-      font-size:14px;
-      line-height:1.55;
-    }
-    .qgrid li{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-    }
-    .qdot{
-      width:8px;height:8px;border-radius:999px;
-      background: rgba(143,240,198,.85);
-      box-shadow: 0 0 0 6px rgba(143,240,198,.05);
-      flex: 0 0 8px;
-      margin-top:7px;
-    }
-    @media (max-width: 900px){
-      .qgrid{grid-template-columns:1fr;}
-      h1{max-width: 26ch}
-      .topbar{margin-bottom:44px}
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px; height: 1px;
+      background: var(--accent);
     }
 
-    .pills{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin:16px 0 14px;
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(42px, 6vw, 80px);
+      font-weight: 300;
+      line-height: 1.04;
+      letter-spacing: -.03em;
+      color: var(--text);
+      max-width: 18ch;
+      margin-bottom: 22px;
     }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
-      color: rgba(255,255,255,.78);
-      font-size:12px;
-      white-space:nowrap;
-    }
-    .miniDot{
-      width:7px;height:7px;border-radius:999px;
-      background:rgba(143,240,198,.85);
-      box-shadow: 0 0 0 5px rgba(143,240,198,.06);
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
     }
 
-    .ctaRow{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      align-items:center;
-      margin-top:8px;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:12px 14px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: transparent;
-      color:var(--text);
-      font-weight:750;
-    }
-    .btn.primary{
-      border-color: rgba(143,240,198,.35);
-      background: rgba(143,240,198,.08);
-    }
-
-    .fineprint{
-      margin-top:10px;
-      color:var(--muted2);
-      font-size:12px;
-      line-height:1.6;
-      max-width: 96ch;
-    }
-
-    .hr{
-      margin:36px 0 0;
-      border-top:1px solid rgba(255,255,255,.08);
-    }
-
-    .grid{
-      margin-top:34px;
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:34px;
-      align-items:start;
-    }
-    @media (max-width: 900px){
-      .grid{grid-template-columns:1fr; gap:22px}
-    }
-
-    .kicker{
-      margin:0 0 10px;
-      font-size:13px;
-      letter-spacing:.22px;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.78);
-      font-weight:900;
-    }
-    .copy{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-      margin:0;
-      max-width: 90ch;
-    }
-    .copy b{color:rgba(255,255,255,.88)}
-    .spacer{height:14px}
-
-    .list{
-      margin:12px 0 0; padding:0; list-style:none;
-      display:grid;
-      gap:10px;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.65;
-    }
-    .list li{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-    }
-    .tick{
-      width:18px; height:18px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.18);
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      font-size:12px;
-      color:rgba(255,255,255,.78);
-      flex: 0 0 18px;
-      margin-top:2px;
-    }
-
-    /* Pricing: now two-up on desktop */
-    .cards{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:14px;
-      margin-top:14px;
-    }
-    @media (max-width: 900px){
-      .cards{grid-template-columns:1fr;}
-    }
-
-    .card{
-      border:1px solid rgba(255,255,255,.10);
-      background: var(--card);
-      border-radius:16px;
-      padding:14px 14px 12px;
-    }
-    .card .title{
-      color: rgba(255,255,255,.84);
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.18px;
-      font-weight:900;
-      margin-bottom:8px;
-    }
-    .card .price{
-      font-size:22px;
-      font-weight:800;
-      letter-spacing:-.3px;
-      margin:0 0 6px;
-    }
-    .card .desc{
-      margin:0;
+    .hero-lead {
+      font-size: clamp(15px, 1.6vw, 17px);
       color: var(--muted);
-      font-size:13px;
-      line-height:1.6;
+      max-width: 56ch;
+      line-height: 1.75;
+      margin-bottom: 12px;
     }
 
-    .foot{
-      margin-top:64px;
-      padding-top:18px;
-      border-top:1px solid rgba(255,255,255,.08);
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      color:var(--muted2);
-      font-size:12px;
+    .hero-hook {
+      font-size: 14px;
+      color: rgba(238,242,237,.78);
+      max-width: 60ch;
+      line-height: 1.65;
+      margin-bottom: 22px;
     }
-    .foot a{color:rgba(255,255,255,.62)}
+    .hero-hook strong { color: var(--text); font-weight: 600; }
+    .hero-hook .hl { color: var(--accent); font-weight: 600; }
+
+    /* ─── DECISION BOX ───────────────────────────────────── */
+    .decision-box {
+      border: 1px solid rgba(82,217,138,.2);
+      background: rgba(82,217,138,.04);
+      border-radius: 14px;
+      padding: 18px 20px 16px;
+      margin-bottom: 22px;
+      max-width: 700px;
+    }
+    .decision-box-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(82,217,138,.8);
+      margin-bottom: 12px;
+    }
+    .decision-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 20px;
+      list-style: none;
+      font-size: 14px;
+      color: rgba(238,242,237,.8);
+      line-height: 1.55;
+    }
+    .decision-grid li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .dgdot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(82,217,138,.8);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+
+    /* ─── TRUST PILLS ────────────────────────────────────── */
+    .trust-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .trust-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 12px;
+      color: rgba(238,242,237,.72);
+      white-space: nowrap;
+    }
+    .tp-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(82,217,138,.75);
+    }
+
+    /* ─── CTA ROW ────────────────────────────────────────── */
+    .cta-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(82,217,138,.4);
+      background: rgba(82,217,138,.1);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: .01em;
+      transition: background .2s, border-color .2s, transform .15s;
+    }
+    .btn-primary:hover {
+      background: rgba(82,217,138,.18);
+      border-color: rgba(82,217,138,.6);
+      transform: translateY(-1px);
+    }
+    .btn-primary svg { transition: transform .2s; }
+    .btn-primary:hover svg { transform: translateX(3px); }
+    .cta-note {
+      font-size: 12px;
+      color: var(--muted2);
+    }
+
+    /* ─── DIVIDER ────────────────────────────────────────── */
+    .hr { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* ─── SECTIONS ───────────────────────────────────────── */
+    .section { padding: 64px 0; }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 20px; height: 1px;
+      background: var(--accent);
+    }
+
+    /* ─── WHAT IT IS GRID ────────────────────────────────── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .section-h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: -.015em;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .body-copy {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .body-copy + .body-copy { margin-top: 14px; }
+    .body-copy strong { color: rgba(238,242,237,.86); font-weight: 600; }
+
+    /* ─── FEATURE LIST ───────────────────────────────────── */
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .feature-list li strong { color: rgba(238,242,237,.86); }
+    .check-circle {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 1px solid var(--border2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ─── HOW IT THINKS ──────────────────────────────────── */
+    .how-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2px;
+      margin-top: 28px;
+    }
+    .how-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 24px 22px;
+      position: relative;
+      transition: border-color .2s, background .2s;
+    }
+    .how-card:first-child { border-radius: 12px 0 0 12px; }
+    .how-card:last-child { border-radius: 0 12px 12px 0; }
+    .how-card:hover {
+      border-color: rgba(82,217,138,.25);
+      background: rgba(82,217,138,.04);
+    }
+    .how-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: .08em;
+      margin-bottom: 12px;
+    }
+    .how-card h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .how-card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ─── DATA SAMPLE ────────────────────────────────────── */
+    .data-sample {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 36px;
+      font-family: 'DM Mono', monospace;
+    }
+    .ds-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ds-title {
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted2);
+    }
+    .ds-badge {
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(232,184,75,.1);
+      border: 1px solid rgba(232,184,75,.25);
+      color: var(--amber);
+      letter-spacing: .08em;
+    }
+    .ds-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      font-size: 12px;
+    }
+    .ds-row:last-child { border-bottom: none; }
+    .ds-row .key { color: var(--muted2); }
+    .ds-row .val { color: var(--text); font-weight: 500; }
+    .ds-row .val.pos { color: var(--accent); }
+    .ds-row .val.neutral { color: rgba(238,242,237,.7); }
+    .ds-note {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--muted2);
+      line-height: 1.6;
+      letter-spacing: .01em;
+    }
+
+    /* ─── METHODOLOGY SECTION ────────────────────────────── */
+    .method-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 28px;
+    }
+    .method-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 22px 20px;
+      transition: border-color .2s, transform .2s;
+    }
+    .method-card:hover {
+      border-color: rgba(82,217,138,.2);
+      transform: translateY(-2px);
+    }
+    .method-card .mc-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .method-card h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .method-card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ─── WHO BUILT IT ───────────────────────────────────── */
+    .about-block {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 40px;
+      margin-top: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-block::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(82,217,138,.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .about-block h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 14px;
+      letter-spacing: -.01em;
+    }
+    .about-block p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 62ch;
+    }
+    .about-block p + p { margin-top: 12px; }
+    .about-block strong { color: rgba(238,242,237,.88); font-weight: 600; }
+    .about-creds {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .cred-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: rgba(238,242,237,.65);
+      letter-spacing: .02em;
+    }
+    .cred-pill::before {
+      content: '▸';
+      color: var(--accent);
+      font-size: 10px;
+    }
+
+    /* ─── PRICING ────────────────────────────────────────── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 28px;
+    }
+    .pricing-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px 26px 24px;
+      transition: border-color .25s, transform .2s;
+    }
+    .pricing-card:hover {
+      border-color: rgba(82,217,138,.3);
+      transform: translateY(-2px);
+    }
+    .pricing-card.featured {
+      border-color: rgba(82,217,138,.25);
+      background: rgba(82,217,138,.04);
+    }
+    .pricing-card .pc-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      margin-bottom: 14px;
+    }
+    .pricing-card.featured .pc-label { color: var(--accent); }
+    .price-num {
+      font-family: 'Fraunces', serif;
+      font-size: 42px;
+      font-weight: 300;
+      letter-spacing: -.02em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .price-num sup {
+      font-family: 'Epilogue', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      vertical-align: super;
+      color: var(--muted);
+    }
+    .pricing-card .pc-desc {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+    .pricing-card .pc-includes {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pricing-card .pc-includes li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: rgba(238,242,237,.65);
+    }
+    .pricing-card .pc-includes li::before {
+      content: '✓';
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ─── BOTTOM CTA ─────────────────────────────────────── */
+    .bottom-cta {
+      text-align: center;
+      padding: 56px 0 40px;
+    }
+    .bottom-cta .cta-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .bottom-cta h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 300;
+      letter-spacing: -.02em;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.15;
+    }
+    .bottom-cta h2 em { font-style: italic; color: var(--accent); }
+    .bottom-cta p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      max-width: 46ch;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+    .fine-print {
+      font-size: 12px;
+      color: var(--muted2);
+      margin-top: 14px;
+      line-height: 1.6;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 22px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--muted2);
+    }
+    footer .brand-small {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted2);
+    }
+    footer a { color: rgba(238,242,237,.5); transition: color .15s; }
+    footer a:hover { color: var(--text); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 760px) {
+      h1 { font-size: 40px; max-width: 100%; }
+      .topbar { margin-bottom: 48px; }
+      .two-col { grid-template-columns: 1fr; gap: 28px; }
+      .how-grid { grid-template-columns: 1fr; gap: 8px; }
+      .how-card:first-child, .how-card:last-child { border-radius: 12px; }
+      .how-card { border-radius: 12px; }
+      .decision-grid { grid-template-columns: 1fr; }
+      .method-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .about-block { padding: 28px 22px; }
+    }
   </style>
 </head>
 
 <body>
-  <div class="bgglow" aria-hidden="true"></div>
+  <div class="bg-canvas" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
 
-  <main class="wrap">
-    <header class="topbar">
-      <div class="brand"><span class="dot"></span> WattDecide</div>
-      <a class="topcta" href="https://tally.so/r/yP9RjX?source=landing-top" target="_blank" rel="noopener">Get notified</a>
-    </header>
+  <div class="wrap">
 
-    <section aria-label="Hero">
-      <h1>Know if it pays before you buy.</h1>
+    <!-- ─── TOPBAR ─────────────────────────────────────── -->
+    <nav class="topbar fade-up d1" aria-label="Navigation">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        WattDecide
+      </div>
+      <a class="nav-cta" href="https://tally.so/r/yP9RjX?source=landing-top" target="_blank" rel="noopener">
+        Get notified
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </nav>
 
-      <p class="lead">
-        Decision-grade spreadsheet models for home energy upgrades – comparing cashflows over time
-        and showing which assumptions actually drive the outcome.
+    <!-- ─── HERO ───────────────────────────────────────── -->
+    <section class="hero" aria-label="Hero">
+
+      <div class="hero-eyebrow fade-up d1">Home energy decision tools</div>
+
+      <h1 class="fade-up d2">
+        Know if it pays<br>before you <em>buy.</em>
+      </h1>
+
+      <p class="hero-lead fade-up d3">
+        Decision-grade spreadsheet models for EV, solar, battery and heat pump investments — comparing real cashflows over time and showing which assumptions actually drive the outcome.
       </p>
 
-      <p class="ego">
-        Built for <span class="accent">analytical homeowners</span> – the kind of people who want the <b>assumptions</b>,
-        not the pitch.
+      <p class="hero-hook fade-up d3">
+        Built for <span class="hl">analytical homeowners</span> — the kind of people who want to see <strong>the assumptions</strong>, not receive a pitch.
       </p>
 
-      <div class="callout" aria-label="Decisions we model first">
-        <p class="calloutTitle">Decisions we’re modelling first</p>
-        <ul class="qgrid">
-          <li><span class="qdot"></span>EV vs ICE – total cost over 5–10 years</li>
-          <li><span class="qdot"></span>Home vs public charging – what mix breaks even</li>
-          <li><span class="qdot"></span>Solar impact – how much it changes EV economics</li>
-          <li><span class="qdot"></span>Battery value – when it’s worth it (and when it isn’t)</li>
+      <div class="decision-box fade-up d4" aria-label="Decisions we model">
+        <p class="decision-box-title">Decisions we're modelling first</p>
+        <ul class="decision-grid">
+          <li><span class="dgdot"></span>EV vs ICE — total cost over 5–10 years</li>
+          <li><span class="dgdot"></span>Home vs public charging — what mix breaks even</li>
+          <li><span class="dgdot"></span>Solar impact — how much it changes EV economics</li>
+          <li><span class="dgdot"></span>Battery storage — when it's worth it (and when it isn't)</li>
         </ul>
       </div>
 
-      <div class="pills" aria-label="Trust signals">
-        <span class="pill"><span class="miniDot"></span>Independent – no affiliate links, no installer leads</span>
-        <span class="pill"><span class="miniDot"></span>Assumptions are visible and editable</span>
-        <span class="pill"><span class="miniDot"></span>Sensitivity shows what drives the result</span>
+      <div class="trust-pills fade-up d4" aria-label="Trust signals">
+        <span class="trust-pill"><span class="tp-dot"></span>Independent — no affiliate links, no installer leads</span>
+        <span class="trust-pill"><span class="tp-dot"></span>All assumptions visible and editable</span>
+        <span class="trust-pill"><span class="tp-dot"></span>Sensitivity shows what actually drives the result</span>
       </div>
 
-      <div class="ctaRow">
-        <a class="btn primary" href="https://tally.so/r/yP9RjX?source=landing-hero" target="_blank" rel="noopener">Join the list</a>
+      <div class="cta-row fade-up d5">
+        <a class="btn-primary" href="https://tally.so/r/yP9RjX?source=landing-hero" target="_blank" rel="noopener">
+          Join the waitlist
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5 12.5 7.5l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <span class="cta-note">Launching soon. One email when v1 is ready.</span>
       </div>
 
-      <div class="fineprint">
-        Launching soon. One email when v1 is ready. Unsubscribe any time.<br/>
-        WattDecide is for decision support and education – not financial advice.
-      </div>
     </section>
 
-    <div class="hr" aria-hidden="true"></div>
+    <hr class="hr">
 
-    <section class="grid" aria-label="Details">
-      <div>
-        <p class="kicker">Scope & philosophy</p>
-        <p class="copy">
-          <b>What this is</b> – A capital allocation model for EV vs ICE decisions with charging strategy and basic solar interaction,
-          built for people who prefer transparent assumptions and sensitivity over black-box answers.
-        </p>
-        <div class="spacer"></div>
-        <p class="copy">
-          <b>How it’s built</b> – Explicit cashflows over time, a small scenario set, and “what must be true” sensitivity
-          so you can see which conditions keep the decision rational.
-        </p>
-      </div>
+    <!-- ─── HOW IT THINKS ──────────────────────────────── -->
+    <section class="section" aria-label="Analytical approach">
+      <div class="section-label">The methodology</div>
+      <h2 class="section-h2">Not "will it pay off" —<br><em style="font-style:italic;color:var(--accent)">under what conditions</em> does it pay off.</h2>
+      <p class="body-copy" style="max-width: 58ch; margin-top: 4px;">Most calculators give you one answer. We show you the three variables that actually determine whether that answer changes. That's a more useful frame for a €30–80k capital decision.</p>
 
-      <div>
-        <p class="kicker">What you get in v1</p>
-        <ul class="list">
-          <li><span class="tick">✓</span> Excel model + Google Sheets version</li>
-          <li><span class="tick">✓</span> Clean inputs, cashflows, break-even and NPV outputs</li>
-          <li><span class="tick">✓</span> Sensitivity view that surfaces the 2–3 drivers that matter</li>
-          <li><span class="tick">✓</span> Methodology + assumptions documentation</li>
-        </ul>
-      </div>
-    </section>
-
-    <section aria-label="Pricing" style="margin-top:42px;">
-      <p class="kicker">Pricing</p>
-
-      <div class="cards">
-        <div class="card">
-          <div class="title">Standard</div>
-          <p class="price">€69</p>
-          <p class="desc">
-            Excel model + Google Sheets version, methodology + assumptions documentation.
-          </p>
+      <div class="how-grid">
+        <div class="how-card">
+          <div class="how-num">01</div>
+          <h3>Explicit cashflows over time</h3>
+          <p>Nominal annual cashflows for every year of your ownership horizon — fuel, energy, maintenance, financing, residual value. No black-box outputs. Every number is traceable.</p>
         </div>
-
-        <div class="card">
-          <div class="title">Support add-on</div>
-          <p class="price">€149</p>
-          <p class="desc">
-            One structured support interaction (email ticket or 20-minute review) for onboarding or a sense-check.
-            Limited availability.
-          </p>
+        <div class="how-card">
+          <div class="how-num">02</div>
+          <h3>NPV and break-even, not just a payback year</h3>
+          <p>NPV comparison, cost-per-kilometre, cumulative cost crossover — presented together so you understand the full financial picture, not just when the lines cross.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-num">03</div>
+          <h3>"What must be true" sensitivity</h3>
+          <p>Change one variable — mileage, electricity price, fuel price, residual value — and see how much the conclusion shifts. Surfaces the 2–3 drivers that actually matter for your scenario.</p>
         </div>
       </div>
 
-      <div class="ctaRow" style="margin-top:14px;">
-        <a class="btn primary" href="https://tally.so/r/yP9RjX?source=landing-bottom" target="_blank" rel="noopener">Get notified at launch</a>
-      </div>
-
-      <div class="fineprint" style="margin-top:10px;">
-        Refunds: if the tool isn’t a fit, email within 7 days of purchase and include your reason.
-        Refunds are offered at our discretion to prevent abuse of digital downloads.
+      <div class="data-sample" aria-label="Example model outputs">
+        <div class="ds-header">
+          <div class="ds-title">Example output — Irish household · ID.4 vs comparable ICE · 15,000 km/yr · 6 kWp solar</div>
+          <div class="ds-badge">Illustrative</div>
+        </div>
+        <div class="ds-row"><span class="key">10-year EV total cost (undiscounted)</span><span class="val pos">€40,554</span></div>
+        <div class="ds-row"><span class="key">10-year ICE total cost (undiscounted)</span><span class="val neutral">€52,824</span></div>
+        <div class="ds-row"><span class="key">NPV advantage (EV vs ICE)</span><span class="val pos">−€3,798 in EV's favour</span></div>
+        <div class="ds-row"><span class="key">Break-even year (cumulative cost)</span><span class="val neutral">Year 8</span></div>
+        <div class="ds-row"><span class="key">Key sensitivity driver</span><span class="val neutral">Electricity price (±€0.05/kWh shifts break-even by ~1.5 years)</span></div>
+        <div class="ds-note">These figures are illustrative. Your actual numbers depend on your vehicle choice, mileage, tariff, and solar configuration — that's exactly what the model is built to calculate.</div>
       </div>
     </section>
 
-    <footer class="foot" aria-label="Footer">
-      <div>© <span id="y"></span> WattDecide</div>
-      <div>
-        <a href="#" onclick="alert('Privacy: we only use your email to notify you about releases. No affiliate links. No installer leads. Unsubscribe any time.'); return false;">Privacy</a>
+    <hr class="hr">
+
+    <!-- ─── WHAT YOU GET ────────────────────────────────── -->
+    <section class="section" aria-label="Product details">
+      <div class="two-col">
+        <div>
+          <div class="section-label">Scope & philosophy</div>
+          <h2 class="section-h2">Transparent by design. <em style="font-style:italic;">Rigorous by training.</em></h2>
+
+          <p class="body-copy" style="margin-top: 16px;">
+            <strong>What this is</strong> — a capital allocation model for EV vs ICE decisions with charging strategy and solar interaction, built for people who prefer to understand their inputs and challenge their assumptions rather than trust a number from a manufacturer's website.
+          </p>
+          <p class="body-copy">
+            <strong>How it's built</strong> — explicit cashflows in nominal €, a small scenario set, and "what must be true" sensitivity so you can see which conditions keep the decision rational — and which ones flip it.
+          </p>
+          <p class="body-copy">
+            <strong>Market presets included</strong> — Ireland, UK, Germany, Netherlands and Generic EU quick-start defaults, all user-editable with guidance on where to find your own current rates.
+          </p>
+        </div>
+
+        <div>
+          <div class="section-label">What you get in v1</div>
+          <ul class="feature-list" style="margin-top: 6px;">
+            <li>
+              <span class="check-circle">✓</span>
+              <span><strong>Excel model + Google Sheets version</strong> — full compatibility, no macros, works exactly as expected</span>
+            </li>
+            <li>
+              <span class="check-circle">✓</span>
+              <span><strong>Dashboard with charts</strong> — cumulative cost curves, break-even callout, sensitivity tornado</span>
+            </li>
+            <li>
+              <span class="check-circle">✓</span>
+              <span><strong>Clean inputs, cashflows and NPV outputs</strong> — every formula visible, every assumption editable</span>
+            </li>
+            <li>
+              <span class="check-circle">✓</span>
+              <span><strong>Sensitivity engine</strong> — surfaces the 2–3 variables that actually drive your outcome</span>
+            </li>
+            <li>
+              <span class="check-circle">✓</span>
+              <span><strong>Methodology documentation</strong> — what's modelled, what's excluded, and why — so you know exactly what you're working with</span>
+            </li>
+            <li>
+              <span class="check-circle">✓</span>
+              <span><strong>Market presets</strong> — quick-start defaults for Ireland, UK and key EU markets</span>
+            </li>
+          </ul>
+        </div>
       </div>
+    </section>
+
+    <hr class="hr">
+
+    <!-- ─── METHODOLOGY ────────────────────────────────── -->
+    <section class="section" aria-label="Why trust it">
+      <div class="section-label">Why it's different</div>
+      <h2 class="section-h2">What you won't find in<br>an OEM calculator.</h2>
+
+      <div class="method-grid">
+        <div class="method-card">
+          <div class="mc-tag">Independence</div>
+          <h4>No financial incentive in the outcome</h4>
+          <p>No affiliate links. No installer referrals. No manufacturer partnerships. The model's job is to give you an honest answer — whatever that happens to be.</p>
+        </div>
+        <div class="method-card">
+          <div class="mc-tag">Transparency</div>
+          <h4>Every assumption is visible</h4>
+          <p>Blue cells are inputs. Every formula is open. The methodology doc explains every modelling choice — including the deliberate limitations. No black boxes.</p>
+        </div>
+        <div class="method-card">
+          <div class="mc-tag">Integration</div>
+          <h4>EV and solar modelled together</h4>
+          <p>Solar changes the EV economics meaningfully. Most tools model them in isolation. We treat EV charging strategy, solar yield, and grid tariff as one interconnected decision.</p>
+        </div>
+        <div class="method-card">
+          <div class="mc-tag">Honesty</div>
+          <h4>Explicit scope boundaries</h4>
+          <p>The methodology document clearly states what the model doesn't do — no hourly dispatch, no live API data, no automated incentive fetching. Knowing the limits is part of using it well.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="hr">
+
+    <!-- ─── WHO BUILT IT ───────────────────────────────── -->
+    <section class="section" aria-label="About WattDecide">
+      <div class="about-block">
+        <div class="section-label">Who built this</div>
+        <h3>Built by energy industry professionals. Used in our own homes.</h3>
+        <p>WattDecide is built by professionals with over 15 years of analytical experience in the renewable energy sector — financial modelling for wind, solar and storage projects at a commercial scale.</p>
+        <p>We also own EVs, solar panels, battery storage and the full smart-home setup. We built WattDecide because the tools available to homeowners making these decisions were — with few exceptions — either marketing tools dressed up as calculators, or technically sound but impossible to use without a finance background. <strong>We wanted something in between: rigorous, transparent, and usable by anyone prepared to engage with the numbers.</strong></p>
+        <div class="about-creds">
+          <span class="cred-pill">15+ yrs renewable energy analysis</span>
+          <span class="cred-pill">EV owner · 2 vehicles</span>
+          <span class="cred-pill">Solar + battery homeowner</span>
+          <span class="cred-pill">Smart home / Home Assistant</span>
+          <span class="cred-pill">No conflicts of interest</span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="hr">
+
+    <!-- ─── PRICING ────────────────────────────────────── -->
+    <section class="section" aria-label="Pricing">
+      <div class="section-label">Pricing</div>
+      <h2 class="section-h2">One price. No subscription.<br>Yours to keep.</h2>
+
+      <div class="pricing-grid">
+        <div class="pricing-card featured">
+          <div class="pc-label">Standard</div>
+          <div class="price-num"><sup>€</sup>69</div>
+          <p class="pc-desc">Everything you need to model your own household energy decision — download once, use forever, update the inputs whenever your situation changes.</p>
+          <ul class="pc-includes">
+            <li>Excel model + Google Sheets version</li>
+            <li>Dashboard with charts and break-even analysis</li>
+            <li>Sensitivity engine and scenario comparison</li>
+            <li>Methodology + assumptions documentation</li>
+            <li>Market presets: IE, UK, DE, NL, EU Generic</li>
+            <li>Free updates through v1.x</li>
+          </ul>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pc-label">Support add-on</div>
+          <div class="price-num"><sup>€</sup>149</div>
+          <p class="pc-desc">One structured support interaction — a 20-minute model review or a detailed email walkthrough — to help you apply the model to your specific situation. Limited availability.</p>
+          <ul class="pc-includes">
+            <li>Everything in Standard</li>
+            <li>One email ticket or 20-min video review</li>
+            <li>Your own scenario sense-checked by the analyst who built it</li>
+            <li>Priority response</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <a class="btn-primary" href="https://tally.so/r/yP9RjX?source=landing-pricing" target="_blank" rel="noopener">
+          Get notified at launch
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5 12.5 7.5l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <p class="fine-print" style="margin-top: 12px;">
+          Refunds: if the model isn't a fit, email within 7 days of purchase with your reason. Refunds are at our discretion to prevent abuse of digital downloads.<br>
+          WattDecide is for decision support and education — not financial advice.
+        </p>
+      </div>
+    </section>
+
+    <hr class="hr">
+
+    <!-- ─── BOTTOM CTA ─────────────────────────────────── -->
+    <div class="bottom-cta">
+      <p class="cta-eyebrow">Launching soon</p>
+      <h2>Join the list.<br>One email <em>when it's ready.</em></h2>
+      <p>No drip campaigns. No weekly newsletters. One notification when v1 ships — then it's your call.</p>
+      <div style="display: flex; justify-content: center;">
+        <a class="btn-primary" href="https://tally.so/r/yP9RjX?source=landing-bottom" target="_blank" rel="noopener">
+          Join the waitlist
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5 12.5 7.5l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <p class="fine-print">Unsubscribe any time. No affiliate links. No installer leads. Ever.</p>
+    </div>
+
+    <!-- ─── FOOTER ─────────────────────────────────────── -->
+    <footer aria-label="Footer">
+      <div class="brand-small">
+        <span class="brand-dot" style="width:6px;height:6px;animation:none;box-shadow:none;"></span>
+        © <span id="yr"></span> WattDecide
+      </div>
+      <a href="#" onclick="alert('Privacy: we only store your email to notify you about the product launch. No third-party sharing. No affiliate tracking. Unsubscribe any time.'); return false;">Privacy</a>
     </footer>
-  </main>
+
+  </div><!-- /wrap -->
 
   <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
+    document.getElementById('yr').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
